@@ -1,0 +1,26 @@
+<view class='container'>
+    <view class="top-tab">
+        <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-idx="{{idx}}" bindtap="switchTab">
+            {{item}}
+        </view>
+    </view>
+
+    <view class='personnel-list'>
+        <view class='list-item'>
+            <view>
+                <image class='userPic' mode="aspectFill" src='/images/test.jpg'></image>
+                <text class='fz13 c1'>用户名</text>
+            </view>
+            <view class='fz12 c3' style='padding: 16rpx 0 10rpx;'>2018-08-08 12:12:12</view>
+            <image class='siginPic' src='/images/signIn.png'></image>
+        </view>
+        <view class='list-item'>
+            <view>
+                <image class='userPic' mode="aspectFill" src='/images/test.jpg'></image>
+                <text class='fz13 c1'>用户名</text>
+            </view>
+            <view class='fz12 c3' style='padding: 16rpx 0 10rpx;'>2018-08-08 12:12:12</view>
+            <image class='siginPic' src='/images/notSignIn.png'></image>
+        </view>
+    </view>
+</view>

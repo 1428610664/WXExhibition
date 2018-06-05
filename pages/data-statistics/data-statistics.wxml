@@ -1,0 +1,8 @@
+<view class="container">
+    <view class='c3 fz14' style='padding: 20rpx 0 20rpx 32rpx;'>活动浏览数</view>
+    <canvas id="lineChart" canvas-id="lineCanvas" disable-scroll="true" class="canvas" bindtouchstart="touchHandler" bindtouchmove="moveHandler" bindtouchend="touchEndHandler"></canvas>
+
+
+    <view class='c3 fz14' style='padding: 20rpx 0 20rpx 32rpx;'>活动票款</view>
+    <canvas id="lineChart1" canvas-id="lineCanvas1" disable-scroll="true" class="canvas" bindtouchstart="touchHandler1" bindtouchmove="moveHandler1" bindtouchend="touchEndHandler1"></canvas>
+</view>

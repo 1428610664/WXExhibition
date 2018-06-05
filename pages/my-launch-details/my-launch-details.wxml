@@ -2,19 +2,19 @@
     <image class="big-img" mode="aspectFill" src='/images/banner.png'></image>
     <view class='fbox fz13 ct c2 head-tab'>
         <view class='flex'>
-            <text>报名人数</text>
+            <text>报名人</text>
             <view class='c1'>99</view>
         </view>
         <view class='flex'>
-            <text>报名人数</text>
+            <text>审核通过</text>
             <view class='c1'>99</view>
         </view>
         <view class='flex'>
-            <text>报名人数</text>
+            <text>签到人</text>
             <view class='c1'>99</view>
         </view>
         <view class='flex'>
-            <text>报名人数</text>
+            <text>未签到</text>
             <view class='c1'>99</view>
         </view>
     </view>
@@ -43,9 +43,9 @@
     </view>
 
     <view class='footer fbox fz14 c b1'>
-        <view class='flex'>活动签到</view>
-        <view class='flex'>人员统计</view>
-        <view class='flex'>数据统计</view>
+        <view class='flex' data-path="../sign-in-desk/sign-in-desk" bindtap='toPage'>活动签到</view>
+        <view class='flex' data-path="../personnel-statistics/personnel-statistics" bindtap='toPage'>人员统计</view>
+        <view class='flex' data-path="../data-statistics/data-statistics" bindtap='toPage'>数据统计</view>
     </view>
 
 </view>

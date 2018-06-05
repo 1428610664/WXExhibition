@@ -16,7 +16,7 @@ Page({
         /*var id = e.currentTarget.id,
             url = '../detail/detail?id=' + id;*/
         wx.navigateTo({
-            url: '../my-launch-details/my-launch-details'
+            url: '../exhibition-details/exhibition-details'
         })
     },
     onShareAppMessage: function () {

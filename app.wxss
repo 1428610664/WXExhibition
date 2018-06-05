@@ -42,12 +42,15 @@
 
 .quote-wrapper{text-align: center;padding: 12px 0;border-bottom:1px solid #f6f6f6;border-top:5px solid #f6f6f6;}
 
+.status-wrapper{padding: 50rpx 0;text-align: center}
+.status-wrapper image{width: 160rpx;height: 160rpx;}
+
 .common-list{padding: 16rpx 24rpx;border-bottom: 1px solid #f6f6f6;}
-.list-item{margin-bottom: 8px;width: 345rpx;border-radius: 3px;float: left;box-shadow: 0 0 1px 0 #ddd;overflow: hidden;}
-.list-item:nth-child(2n+1){margin-right: 16rpx;}
-.list-item .img{ width: 100%; height: 220rpx;}
-.list-item .name{padding: 0 6px;line-height: 20px;}
-.list-item .tools{padding: 8px 6px 8px;}
+.common-list .list-item{margin-bottom: 8px;width: 345rpx;border-radius: 3px;float: left;box-shadow: 0 0 1px 0 #ddd;overflow: hidden;}
+.common-list .list-item:nth-child(2n+1){margin-right: 16rpx;}
+.common-list .list-item .img{ width: 100%; height: 220rpx;}
+.common-list .list-item .name{padding: 0 6px;line-height: 20px;}
+.common-list .list-item .tools{padding: 8px 6px 8px;}
 
 
 .common-list-col-item{padding: 12px 12px;border-bottom: 10px solid #f6f6f6;}

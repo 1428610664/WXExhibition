@@ -1,0 +1,10 @@
+<view class='container'>
+    <image class="codePic" mode="aspectFill" src='/images/code.jpg'></image>
+    <view class='fz12 c3 ct'>
+    <view class='c1 fz13' style='margin-bottom: 12rpx;'>签到二维码</view>
+    说明：活动签到/活动退场使用相同的页面</view>
+    <view class='footer fbox fz14 c b1'>
+        <view class='flex' bindtap="scanCode">扫猫签到</view>
+        <view class='flex'>输入签到码</view>
+    </view>
+</view>

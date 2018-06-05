@@ -1,0 +1,6 @@
+<template name="status">
+    <view class='status-wrapper'>
+        <image mode="aspectFit" src='/images/not-data.png'></image>
+        <view class='fz13 c3'>暂无数据...</view>
+    </view>
+</template>

@@ -3,7 +3,7 @@
     <swiper class="index-swiper">
         <block wx:key="i" wx:for="{{[1,2,3]}}">
             <swiper-item>
-                <image class="big-img" mode="aspectFill" src='/images/banner.png'></image>
+                <image class="big-img" mode="aspectFill" src='/images/code.jpg'></image>
                 <view class='fz13 c1 ct'>序列号：xxxxxxxx</view>
             </swiper-item>
         </block>

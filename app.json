@@ -1,6 +1,9 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/data-statistics/data-statistics",
+        "pages/personnel-statistics/personnel-statistics",
+        "pages/sign-in-desk/sign-in-desk",
         "pages/my-launch-details/my-launch-details",
         "pages/my-launch/my-launch",
         "pages/voucher-details/voucher-details",

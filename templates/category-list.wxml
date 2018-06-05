@@ -14,7 +14,7 @@
     </block>
     <block wx:key="i" wx:for="{{listData}}">
         <view class='categoryHead'>
-            <image src='{{item.images}}'></image>
+            <image lazy-load="true" src='{{item.images}}'></image>
             <text class='fz14 c2'>{{item.name}}</text>
         </view>
         <view class='category-list-wrapper clear'>

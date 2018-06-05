@@ -3,7 +3,7 @@
         <block wx:key="i" wx:for="{{[1,2,3,4,5]}}">
             <view class='common-list-col-item' bindtap="redictAppDetail">
                 <view class='clear'>
-                    <image mode="aspectFill" class='img fl' src='/images/banner.png'></image>
+                    <image mode="aspectFill" class='img fl' lazy-load="true" src='/images/banner.png'></image>
                     <view class='content-wrapper fl'>
                         <view>
                             <text class='name fz14'>活动名称活动名称活动名称活动名称活动名称</text> 
