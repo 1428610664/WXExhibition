@@ -1,0 +1,29 @@
+<template name="categoryList">
+    <block wx:key="i" wx:for="{{existData}}">
+        <view class='categoryHead'>
+            <text class='fz14 c2'>{{item.name}}</text>
+        </view>
+        <view class='category-list-wrapper clear'>
+            <block wx:key="id" wx:for="{{item.childer}}" wx:for-item="child">
+            <view class='category-item'>
+                {{child.name}}
+                <image src='/images/delete1.png' style='display: {{isEdit}};'></image>
+            </view>
+            </block>
+        </view>
+    </block>
+    <block wx:key="i" wx:for="{{listData}}">
+        <view class='categoryHead'>
+            <image src='{{item.images}}'></image>
+            <text class='fz14 c2'>{{item.name}}</text>
+        </view>
+        <view class='category-list-wrapper clear'>
+            <block wx:key="id" wx:for="{{item.childer}}" wx:for-item="child">
+            <view class='category-item'>
+                {{child.name}}
+                <image src='/images/add1.png' style='display: {{isEdit}};'></image>
+            </view>
+            </block>
+        </view>
+    </block>
+</template>

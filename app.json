@@ -1,0 +1,55 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/my-launch-details/my-launch-details",
+        "pages/my-launch/my-launch",
+        "pages/voucher-details/voucher-details",
+        "pages/me/me",
+        "pages/my-voucher/my-voucher",
+        "pages/category-details/category-details",
+        "pages/category/category",
+        "pages/exhibition-details/exhibition-details",
+        "pages/search/search",
+        "pages/search-details/search-details",
+        "pages/city/city",
+        "pages/my-attend/my-attend"
+    ],
+    "window": {
+        "backgroundTextStyle": "dark",
+        "navigationBarBackgroundColor": "#118fff",
+        "navigationBarTitleText": "科微展台",
+        "navigationBarTextStyle": "white"
+    },
+    "tabBar": {
+        "color": "#515151",
+        "selectedColor": "#118fff",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "iconPath": "images/home.png",
+                "selectedIconPath": "images/home-on.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/category/category",
+                "iconPath": "images/category.png",
+                "selectedIconPath": "images/category-on.png",
+                "text": "找活动"
+            },
+            {
+                "pagePath": "pages/me/me",
+                "iconPath": "images/me.png",
+                "selectedIconPath": "images/me-on.png",
+                "text": "我的"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "connectSocket": 10000,
+        "uploadFile": 10000,
+        "downloadFile": 10000
+    }
+}

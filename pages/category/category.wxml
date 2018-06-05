@@ -1,0 +1,40 @@
+<import src="../../templates/common-list-col.wxml" />
+
+<!-- search -->
+<view class='search-wrapper b'>
+    <view class='address-view' bindtap="toCity">
+        <image class='address-img' src='/images/address.png'></image>
+        <text class='address'> 深圳</text>
+    </view>
+    <view class='search-view' bindtap="searchClick">
+        <image class='search-img' src='/images/search.png'></image>
+        <text>搜索精彩活动</text>
+    </view>
+</view>
+<!-- search -->
+
+<view class="top-tab">
+  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-idx="{{idx}}" bindtap="switchTab">
+    {{item}}
+  </view>
+</view>
+
+<view class='tab-wrapper c2'>
+    <view class='tab-item' data-id='0' bindtap="tabItemClick">全部<image src='/images/more2.png'></image></view>
+    <view class='tab-item' data-id='1' bindtap="tabItemClick">全时段<image src='/images/more2.png'></image></view>
+    <view class='tab-item' data-id='2' bindtap="tabItemClick">全价格<image src='/images/more2.png'></image></view>
+    <view class='tab-item' data-id='3' bindtap="tabItemClick">综合排序<image src='/images/more2.png'></image></view>
+</view>
+<view class='select-wrapper' style='display:{{showMask}}'>
+    <block wx:key="i" wx:for="{{sortList}}" >
+        <view class='select-item' data-data="{{item}}" bindtap="sortClick">{{item.name}}</view>
+    </block>
+</view>
+<view class='select-mask' bindtap="maskClick" style='display:{{showMask}}'></view>
+
+<view style='margin-top: 123px;'>
+    <!-- <scroll-view class="scrollView"  style="height:{{windowHeight}}px" scroll-y="true" bindscrolltolower="loadMoreData"> -->
+    <template is="tempCommonListCol" />
+    <!-- </scroll-view> -->
+</view>
+

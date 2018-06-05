@@ -1,0 +1,4 @@
+<import src="../../templates/common-list-col1.wxml" />
+<view>
+    <template is="tempCommonListCol1" />
+</view>

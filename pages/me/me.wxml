@@ -1,0 +1,74 @@
+<view class='page-content'>
+    <view class='header'>
+        <image mode="aspectFill" class='header-bg' src='/images/test.jpg'></image>
+        <view class='user-info-wrapper'>
+            <image mode="aspectFill" class='userPic' src='/images/test.jpg'></image>
+            <view class="userName fz13 c">用户名</view>
+        </view>
+    </view>
+
+    <view class='cell b clear'>
+        <text class='fz13 fl'>我的票劵</text>
+        <view class='fr' data-id="0" bindtap="voucherClick">
+            <text class='fz10'>全部</text>
+            <image src='/images/more.png' class='more-img'></image>
+        </view>
+    </view>
+    <view class="top-Nav">
+        <block wx:key="i" wx:for="{{navList}}">
+            <view class="top-item" style='width:10%; position: relative; float:left; text-align:center' data-id="{{item.id}}" bindtap="voucherClick">
+                <view><image src="{{item.images}}"></image></view>
+                <view><text>{{item.name}}</text></view>
+            </view>
+        </block>
+    </view>
+
+    <view class='c2'>
+        <view class='cell b clear' data-path="../my-launch/my-launch" bindtap="toPage">
+            <image src='/images/launch.png' class='fl cell-img'></image>
+            <text class='fz13 fl'>我发起的</text>
+            <view class='fr'>
+                <text class='fz10'></text>
+                <image src='/images/more.png' class='more-img'></image>
+            </view>
+        </view>
+        <view class='cell b clear' data-path="../my-attend/my-attend" bindtap="toPage">
+            <image src='/images/list.png' class='fl cell-img'></image>
+            <text class='fz13 fl'>我参加的</text>
+            <view class='fr'>
+                <text class='fz10'></text>
+                <image src='/images/more.png' class='more-img'></image>
+            </view>
+        </view>
+        <view class='b cell' style='position: relative;'>
+            <view style='position: absolute;top: 7px;left: 0;'>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+                <contact-button type='default-light' size='27' session-from='weapp'></contact-button>
+            </view>
+            <view style='position: relative;z-index: 2;'>
+                <image src='/images/service.png' class='fl cell-img'></image>
+                <text class='fz13 fl'>客服消息</text>
+                <view class='fr'>
+                    <text class='fz10'></text>
+                    <image src='/images/more.png' class='more-img'></image>
+                </view>
+            </view>
+            
+        </view>
+        
+    </view>
+</view>

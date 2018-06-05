@@ -1,0 +1,10 @@
+<import src="../../templates/common-list-col.wxml" />
+<view class="top-tab">
+  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-idx="{{idx}}" bindtap="switchTab">
+    {{item}}
+  </view>
+</view>
+
+<view style='margin-top: 37px;'>
+    <template is="tempCommonListCol" />
+</view>

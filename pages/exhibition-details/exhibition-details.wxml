@@ -1,0 +1,64 @@
+<view class='container'>
+    <image class="big-img" mode="aspectFill" src='/images/banner.png'></image>
+    
+    <view class='header-wrapper'>
+        <view class='title-info'>
+            <text class='fz14 c2 name'>投资家网 . 2018基金合伙人峰会 . 深圳</text>
+            <view class='tools'>
+                <text class='fz12 c3'>浏览 9999</text>
+                <text class='fz12 c3'>收藏 9999</text>
+            </view>
+        </view>
+        <view class='fz13 c2 cell-wrapper'>
+            <image src='/images/time.png'></image>
+            <text>2018-08-08 12:00 - 2018-08-08 12:00</text>
+        </view>
+        <view class='fz13 c2 cell-wrapper'>
+            <image src='/images/address1.png'></image>
+            <text>广东深圳福田区 香格里拉大酒店</text>
+        </view>
+        <view class='fz13 c2 cell-wrapper'>
+            <image src='/images/money.png'></image>
+            <text class='c1'>￥99起</text>
+        </view>
+    </view>
+
+
+    <view class='details'>
+        <view class='cell-title'>
+            <text class='c2 fz14'>活动详情</text>
+            <image class='more' src='/images/more.png'></image>
+        </view>
+        <view class='content-desc'>
+            <text class='fz12 c3'>凡是只知道问度娘？怪不得你时间成本那么高！</text>
+        </view>
+        <view class='more-wrapper'>
+            <text class='c2 fz13'>查看更多</text>
+            <image src='/images/more1.png'></image>
+        </view>
+    </view>
+    
+    <view class='footer-wrapper b'>
+
+        <view class='lef-wrapper fz10'>
+            <view bindtap='toHome'>
+                <image src='/images/home1.png'></image>
+                <text>首页</text>
+            </view>
+            <view>
+                <image src='/images/like.png'></image>
+                <text>收藏</text>
+            </view>
+            <view>
+                <image src='/images/share.png'></image>
+                <text>分享</text>
+            </view>
+        </view>
+        <view class='enroll-btn b1 c fz15'><text>立即报名</text></view>
+    
+    </view>
+
+</view>
+
+
+

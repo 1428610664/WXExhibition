@@ -1,0 +1,22 @@
+<template name="tempCommonListCol1">
+    <view class='common-list-col'>
+        <block wx:key="i" wx:for="{{[1,2,3,4,5]}}">
+            <view class='common-list-col-item' bindtap="redictAppDetail">
+                <view class='clear'>
+                    <image mode="aspectFill" class='img fl' src='/images/banner.png'></image>
+                    <view class='content-wrapper fl'>
+                        <view>
+                            <text class='name fz14'>活动名称活动名称活动名称活动名称活动名称</text> 
+                        </view>
+                        <view><text class='fz12 c3'>广东深圳</text></view>
+                        <view class='clear fz12 c3'>
+                            <text class='fl'>07/28 周六</text>
+                            <text class='fr c1 fz13'>未通过</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </block>
+    </view>
+
+</template>
