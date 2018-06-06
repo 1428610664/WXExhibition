@@ -21,6 +21,12 @@ Page({
           }
       })
   },
+  onPullDownRefresh: function () {
+      setTimeout(() => {
+          wx.stopPullDownRefresh()
+      }, 2000)
+      wx.showToast({ title: 'onPullDownRefresh' })
+  },
   onReachBottom: function () {
       wx.showToast({ title: 'loadMoreData' })
   },

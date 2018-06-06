@@ -6,7 +6,6 @@ var wxRequest = require('../../utils/wxRequest.js')
 
 Page({
     data: {
-        windowHeight: 0,
         showallDisplay:"none",
         displaySwiper: "none",
         postsShowSwiperList: [],
@@ -22,14 +21,7 @@ Page({
     },
     //生命周期函数-监听页面初次渲染完毕
     onReady: function () {
-        var that = this;
-        wx.getSystemInfo({
-            success: function (res) {
-                that.setData({
-                    windowHeight: (res.windowHeight - 86)
-                });
-            }
-        })
+       
     },
     onLoad: function () {
         this.fetchTopFivePosts();
@@ -83,11 +75,15 @@ Page({
 
             });
     },
-    //加载更多操作
-    loadMoreData: function () {
-        wx.showToast({ title: 'loadMoreData'})
+    onPullDownRefresh: function () {
+        setTimeout(() => {
+            wx.stopPullDownRefresh()
+        }, 2000)
+        wx.showToast({ title: 'onPullDownRefresh'})
     },
-
+    onReachBottom: function () {
+        wx.showToast({ title: 'loadMoreData' })
+    },
     // 扫码
     scanCode: function(){
         wx.scanCode({
