@@ -1,9 +1,14 @@
+<import src="../../templates/login-popup.wxml" />
+
+<template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+
 <view class='container'>
-    <image class="big-img" mode="aspectFill" src='/images/banner.png'></image>
+
+    <image class="big-img" binderror="errorFunction" mode="aspectFill" src='{{imgUrl}}'></image>
     
     <view class='header-wrapper'>
         <view class='title-info'>
-            <text class='fz14 c2 name'>投资家网 . 2018基金合伙人峰会 . 深圳</text>
+            <text class='fz14 c2 name'>{{itemData.name}}</text>
             <view class='tools'>
                 <text class='fz12 c3'>浏览 9999</text>
                 <text class='fz12 c3'>收藏 9999</text>
@@ -11,18 +16,18 @@
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <image src='/images/time.png'></image>
-            <text>2018-08-08 12:00 - 2018-08-08 12:00</text>
+            <text>{{itemData.beginTime}} - {{itemData.endTime}}</text>
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <image src='/images/address1.png'></image>
-            <text>广东深圳福田区 香格里拉大酒店</text>
+            <text>{{itemData.address}}</text>
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <image src='/images/money.png'></image>
-            <text class='c1'>￥99起</text>
+            <text class='c1' wx:if="{{itemData.isNeedPay == '0'}}">免费</text>
+            <text class='c1' wx:else>￥{{itemData.mbPrice}}</text>
         </view>
     </view>
-
 
     <view class='details'>
         <view class='cell-title'>
@@ -30,7 +35,7 @@
             <image class='more' src='/images/more.png'></image>
         </view>
         <view class='content-desc'>
-            <text class='fz12 c3'>凡是只知道问度娘？怪不得你时间成本那么高！</text>
+            <text class='fz12 c3'>{{itemData.content}}</text>
         </view>
         <view class='more-wrapper'>
             <text class='c2 fz13'>查看更多</text>
@@ -39,7 +44,6 @@
     </view>
     
     <view class='footer-wrapper b'>
-
         <view class='lef-wrapper fz10'>
             <view bindtap='toHome'>
                 <image src='/images/home1.png'></image>
@@ -49,13 +53,18 @@
                 <image src='/images/like.png'></image>
                 <text>收藏</text>
             </view>
-            <view>
+            <view bindtap='shareExhubition'>
                 <image src='/images/share.png'></image>
                 <text>分享</text>
+                <button open-type="share" class='share-button'></button>
             </view>
         </view>
-        <view class='enroll-btn b1 c fz15'><text>立即报名</text></view>
-    
+        <view wx:if="{{status == 0}}" class='enroll-btn b1 c fz15' catchtap='enrollEvent'><text>立即报名</text></view>
+        <view wx:else class='enroll-btn b2 c fz15'>
+            <text wx:if="{{status == 1}}">执行中</text>
+            <text wx:if="{{status == 2}}">活动已暂停</text>
+            <text wx:if="{{status == 3}}">活动已结束</text>
+        </view>
     </view>
 
 </view>

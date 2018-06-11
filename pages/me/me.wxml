@@ -1,9 +1,15 @@
+<import src="../../templates/login-popup.wxml" />
+
+
 <view class='page-content'>
+
+    <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
+    
     <view class='header'>
-        <image mode="aspectFill" class='header-bg' src='/images/test.jpg'></image>
+        <image mode="aspectFill" class='header-bg' src='{{userInfo.avatarUrl}}'></image>
         <view class='user-info-wrapper'>
-            <image mode="aspectFill" class='userPic' src='/images/test.jpg'></image>
-            <view class="userName fz13 c">用户名</view>
+            <image mode="aspectFill" class='userPic' src='{{userInfo.avatarUrl}}'></image>
+            <view class="userName fz13 c">{{userInfo.nickName}}</view>
         </view>
     </view>
 

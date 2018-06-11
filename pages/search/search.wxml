@@ -1,20 +1,20 @@
-<view class='search'>
-    <view class='search-wrapper'>
-        <image src='/images/search.png'></image>
-        <input placeholder='请输入活动关键字' confirm-type="search" bindconfirm="searchEvent" placeholder-style="color: #ddd;" auto-focus></input>
+<form catchsubmit="searchEvent" catchreset="formReset">
+    <view class='search'>
+        <view class='search-wrapper'>
+            <image src='/images/search.png'></image>
+            <input placeholder='请输入活动关键字' name="input" id="search-input" confirm-type="search" bindconfirm="searchEvent" placeholder-style="color: #ddd;" auto-focus></input>
+        </view>
+        <button plain="true" form-type="submit" class="searchBtn c1 fz13">搜索</button>
     </view>
-    <view class='searchBtn c1 fz13' bindtap="search">搜索</view>
-</view>
+</form>
+
 <view class='clear storegeHeader'>
     <view class='fz12 c3 fl'>历史搜索</view>
-    <image src='/images/delete.png' class='deleteBtn fr'></image>
+    <image src='/images/delete.png' class='deleteBtn fr' catchtap='removeStorage'></image>
 </view>
 <view class='storageList'>
-    <text bindtap="search">搜索缓存</text>
-    <text bindtap="search">12搜索缓存3</text>
-    <text bindtap="search">1缓存3</text>
-    <text bindtap="search">1搜索</text>
-    <text bindtap="search">12搜索缓存3</text>
-    <text bindtap="search">1搜索</text>
+    <block wx:key="i" wx:for="{{storageList}}">
+        <text bindtap="clickStorage" data-data="{{item}}">{{item}}</text>
+    </block>
 </view>
 

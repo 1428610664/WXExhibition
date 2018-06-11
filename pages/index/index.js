@@ -3,12 +3,17 @@
 const app = getApp()
 var Api = require('../../utils/Api.js');
 var wxRequest = require('../../utils/wxRequest.js')
-
+var request = require('../../utils/request.js')
+var utils = require('../../utils/util.js')
 Page({
     data: {
+        isLoginPopup: false,
+        userInfo: null,
+        status: 0,
         showallDisplay:"none",
         displaySwiper: "none",
         postsShowSwiperList: [],
+        list: [],
         navList: ['个人榜', '活动日历', '认证活动','收藏'],
         currentID: "nav1",
         navTabList: [
@@ -21,10 +26,21 @@ Page({
     },
     //生命周期函数-监听页面初次渲染完毕
     onReady: function () {
-       
+        if (app.globalData.userInfo) {
+            this.setData({ userInfo: app.globalData.userInfo })
+        } else {
+            this.openLoginPopup()
+        }
+    },
+    onShow: function(){
+        if (app.globalData.userInfo) {
+            this.closeLoginPopup()
+            this.setData({ userInfo: app.globalData.userInfo })
+        }
     },
     onLoad: function () {
         this.fetchTopFivePosts();
+        this.requestList();
     },
     onShareAppMessage: function () {
         return {
@@ -38,11 +54,29 @@ Page({
             }
         }
     },
+    requestList: function(){
+        request.get(Api.getHomeList, { offset: 1, limit: 20, order: 'asc' }).then((res)=>{
+            if (res.data.rows){
+                this.setData({ status: 1, list: this._formatListData(res.data.rows) })
+            }else{
+                this.setData({ status:  2})
+            }
+            
+        }, (error) => {
+            this.setData({status: 3})
+        })
+    },
+    binderrorimg: function(e){
+        var errorImgIndex = e.target.dataset.errorimg
+        var imgObject = "list[" + errorImgIndex + "].imgUrl"
+        var errorImg = {}
+        errorImg[imgObject] = "../../images/loading.png"
+        this.setData(errorImg)
+    },
     fetchTopFivePosts: function () {
         var self = this;
         var getPostsRequest = wxRequest.getRequest(Api.getSwiperPosts());
         getPostsRequest.then(response => {
-            //console.log(JSON.stringify(response.data))
             if (response.data.status == '200' && response.data.posts.length > 0) {
                 self.setData({
                     postsShowSwiperList: response.data.posts,
@@ -64,7 +98,6 @@ Page({
 
             })
             .catch(function (response) {
-                //   console.log(response);
                 //   self.setData({
                 //       showerror: "block",
                 //       floatDisplay: "none"
@@ -74,6 +107,19 @@ Page({
             .finally(function () {
 
             });
+    },
+    _formatListData: function(data){
+        let list = []
+        data.forEach((v, i) => {
+            list.push({
+                id: v.id,
+                name: v.name,
+                time: utils.format(v.createTime.time),
+                address: v.address,
+                imgUrl: v.imgUrl | "11"
+            })
+        })
+        return list
     },
     onPullDownRefresh: function () {
         setTimeout(() => {
@@ -109,10 +155,9 @@ Page({
     },
     // 跳转至查看小程序列表页面或文章详情页
     redictAppDetail: function (e) {
-        /*var id = e.currentTarget.id,
-            url = '../detail/detail?id=' + id;*/
+        var id = e.currentTarget.dataset.id
         wx.navigateTo({
-            url: '../exhibition-details/exhibition-details'
+            url: '../exhibition-details/exhibition-details?id=' + id
         })
     },
     searchClick: function(e){
@@ -128,5 +173,23 @@ Page({
     navTabItemClick: function(e){
         let id = e.currentTarget.id;
         this.setData({ currentID: id})
+    },
+
+    agreeGetUser: function (e) {
+        var userInfo = e.detail.userInfo;
+        var self = this;
+        if (userInfo) {
+            self.setData({ userInfo: userInfo })
+            app.globalData.userInfo = userInfo
+            setTimeout(function () {
+                self.setData({ isLoginPopup: false })
+            }, 1200);
+        }
+    },
+    closeLoginPopup() {
+        this.setData({ isLoginPopup: false });
+    },
+    openLoginPopup() {
+        this.setData({ isLoginPopup: true });
     }
 })

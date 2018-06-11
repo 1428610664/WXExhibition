@@ -1,6 +1,6 @@
 .search{display: flex;flex-flow:row;padding: 5px 5px 5px 16px;border-bottom: 1px solid #f6f6f6;}
 .search-wrapper{flex: 1;background: #f6f6f6;border-radius: 3px;padding: 3px 0;}
-.searchBtn{padding: 0 10px;line-height: 33px;text-align: center}
+.searchBtn{border:none!important;display: inline-block;background: transparent;padding:  0 10px;line-height: 33px;text-align: center;}
 
 .search-wrapper image{width: 14px; height: 14px;vertical-align: middle;margin: 1px 3px 0 10px;}
 .search-wrapper input{width: 400rpx; display: inline-block;font-size: 13px;vertical-align: middle;margin-top: 3px;}
