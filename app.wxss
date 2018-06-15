@@ -43,7 +43,9 @@
 .c2{color: #333!important;}
 .c3{color: #999!important;}
 
-.quote-wrapper{text-align: center;padding: 12px 0;border-bottom:1px solid #f6f6f6;border-top:5px solid #f6f6f6;}
+.quote-wrapper{text-align: center;padding: 12px 24rpx;border-bottom:1px solid #f6f6f6;border-top:5px solid #f6f6f6;}
+.quote-wrapper1{text-align: left;line-height: 24px;}
+.quote-wrapper1 image{width: 16px; height: 16px; vertical-align: middle;margin: -3px 3px 0 0;}
 
 .status-wrapper{padding: 50rpx 0;text-align: center}
 .status-wrapper .loadding{width: 60rpx;height: 60rpx;}
@@ -51,9 +53,9 @@
 
 .common-list{padding: 16rpx 24rpx;border-bottom: 1px solid #f6f6f6;}
 .common-list .list-item{margin-bottom: 8px;width: 345rpx;border-radius: 3px;float: left;box-shadow: 0 0 1px 0 #ddd;overflow: hidden;}
-.common-list .list-item:nth-child(2n+1){margin-right: 16rpx;}
+.common-list .list-item:nth-child(2n+1){margin-right: 12rpx;}
 .common-list .list-item .img{ width: 100%; height: 220rpx;}
-.common-list .list-item .name{padding: 0 6px;line-height: 20px;min-height: 20px}
+.common-list .list-item .name{padding: 0 6px;line-height: 40rpx;min-height: 80rpx}
 .common-list .list-item .tools{padding: 8px 6px 8px;}
 
 .common-list-col-item{padding: 12px 12px;border-bottom: 10px solid #f6f6f6;}
@@ -91,3 +93,5 @@
 .zan-popup .popup-wrapper{width:100%;padding:0 15px;padding-bottom:10px;overflow:visible;}
 .zan-popup .popup-wrapper .popup-title{font-size:16px;padding:15px 0;}
 .zan-popup .btn-primary.confirm{height:50px;line-height:50px;border-radius:0;}
+
+.entry-summary {font-size: 28rpx;line-height:60rpx;letter-spacing:1px;padding: 16rpx 12rpx;}

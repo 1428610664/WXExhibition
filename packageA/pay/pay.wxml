@@ -1,0 +1,84 @@
+<view class='wrapper'>
+    <view class='b common-list-col-item'>
+        <view class='clear'>
+            <image mode="aspectFill" lazy-load="true" class='img fl' src='{{imgUrl}}'></image>
+            <view class='content-wrapper fl'>
+                <view class='name-wrapper hzline2'>
+                    <text class='name fz14 c2'>{{itemData.name}}</text>
+                </view>
+                <view>
+                    <image class='icon' src='/images/address1.png'></image>
+                    <text class='fz12 c3 m-r5'>{{itemData.address}}</text>
+                    <image class='icon' src='/images/eye.png'></image>
+                    <text class='fz12 c3 '>213</text>
+                </view>
+                <view class='clear fz12 c3'>
+                    <image class='icon' src='/images/time.png'></image>
+                    <text class='fz12 c3'>{{itemData.beginTime1}} - {{itemData.endTime1}}</text>
+                    <text class='fr c1 fz13' wx:if="{{itemData.isNeedPay == 1}}">￥{{itemData.nonMBPrice}}</text>
+                    <text class='fr c1 fz13' wx:else>免费</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    
+    <view>
+        <view class='info-wrapper fz12 c3 b' wx:if="{{itemData.isNeedPay == 1}}">
+            <view class='c1 fz16 title'>收费票</view>
+            <view class='item-wrapper c1 fz14'>￥{{price}}</view>
+            <view class='item-wrapper clear'>
+                购买数量
+                <view class='number-wrapper fr'>
+                    <image catchtap='minusEvent' src='/images/minus.png'></image>
+                    <text>{{count}}</text>
+                    <image catchtap='addEvent' src='/images/add1.png'></image>
+                </view>
+            </view>
+            <view class='item-wrapper'>温馨提示：请尽快完成付款,30min内未付款系统会自动取消！
+            </view>
+        </view>
+
+        <view class='info-wrapper fz12 c3 b' wx:else>
+            <view class='c1 fz16 title'>免费票</view>
+            <!-- <view class='item-wrapper'>
+                【报名此票种需要经过主办方审核】
+            </view> -->
+            <view class='item-wrapper'>
+                活动时间：{{itemData.beginTime}} - {{itemData.endTime}}
+            </view>
+            <!-- <view class='item-wrapper'>
+                备注说明：免费票【报名此票种需要经过主办方审核】
+            </view> -->
+        </view>
+    </view>
+
+    <view class='info-wrapper fz12 c3 b'>
+        <view class='c1 fz16 title'>用户信息</view>
+        <view class='item-wrapper'>
+            姓名：{{userData.name}}
+        </view>
+        <view class='item-wrapper'>
+            昵称：{{userData.nickName}}
+        </view>
+        <view class='item-wrapper'>
+            手机号：{{userData.phone}}
+        </view>
+        <view class='item-wrapper'>
+            邮箱：{{userData.email}}
+        </view>
+    </view>
+
+    <view class='footer fbox fz14 ct b'>
+        <view class='flex' wx:if="{{itemData.isNeedPay == 1}}">
+            合计:
+            <text class='c1'>￥{{total}}</text>
+        </view>
+        <view class='flex' wx:else>
+            <text class='c1'>免费</text>
+        </view>
+        <view class='b1 c' style='width: 240rpx;' catchtap='payEvent'>
+            确定
+        </view>
+    </view>
+
+</view>

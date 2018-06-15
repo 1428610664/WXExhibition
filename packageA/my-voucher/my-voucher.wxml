@@ -1,0 +1,17 @@
+<import src="../../templates/common-list-col.wxml" />
+<import src="../../templates/status.wxml" />
+
+
+<view class="top-tab">
+  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-idx="{{idx}}" bindtap="switchTab">
+    {{item}}
+  </view>
+</view>
+
+<view style='margin-top: 37px;' wx:if="{{status== 1 || status== 4}}">
+    <template is="tempCommonListCol" data="{{listCol, name: 'listCol'}}" />
+</view>
+
+<view style="margin-top: {{status != 4 ? '123px': '0px'}};">
+    <template is="status" data="{{status}}" />
+</view>

@@ -1,23 +1,26 @@
 <template name="tempCommonListCol">
     <view class='common-list-col' wx:if="{{listCol}}">
         <block wx:key="i" wx:for="{{listCol}}">
-            <view class='common-list-col-item' data-id="{{item.id}}" bindtap="redictAppDetail">
+            <view class='common-list-col-item' data-item="{{item}}" data-id="{{item.id}}" bindtap="redictAppDetail">
                 <view class='clear'>
-                    <image mode="aspectFill" lazy-load="true" class='img fl'  binderror="errorImg" data-errorimg="{{index}}" src='{{item.imgUrl}}'></image>
+                    <image mode="aspectFill" lazy-load="true" class='img fl'  binderror="errorImage" data-index="{{index}}" data-name="{{name}}" src='{{item.imgUrl}}'></image>
                     <view class='content-wrapper fl'>
                         <view>
                             <text class='name fz14'>{{item.name}}</text> 
                         </view>
                         <view><text class='fz12 c3'>{{item.address}}</text></view>
+                        <view wx:if="{{item.isPay}}">
+                            <text class='fz12 c3'>数量：{{item.orderNumber}} | 实付：￥{{item.orderPriceActual}}</text>
+                        </view>
                         <view class='clear fz12 c3'>
                             <text class='fl'>{{item.time}}</text>
-                            <text class='fr c1 fz13'>￥99起</text>
+                            <text class='fr c1 fz13'>{{item.orderStatus}}</text>
                         </view>
                     </view>
                 </view>
                 <view class='clear c1 tools'>
-                    <text class='fl fz10'>#基金 #投资 #风投</text>
-                    <text class='fr fz13'>立即报名</text>
+                    <text class='fl fz10'>{{item.label}}</text>
+                    <text class='fr fz13'>{{item.status}}</text>
                 </view>
             </view>
         </block>

@@ -7,7 +7,7 @@ Page({
         pageNo: 1,
         pageTotal: 0,
         listCol: [],
-        requestParms: { keyWord: '', offset: 1, limit: 10, order: 'asc' }
+        requestParms: { status: ">= 1", keyWord: '', offset: 1, limit: 10, order: 'asc' }
     },
     onLoad: function (options) {
         console.log(options.search)
@@ -44,7 +44,10 @@ Page({
                 name: v.name,
                 time: utils.format(v.createTime.time),
                 address: v.address,
-                imgUrl: v.imgUrl | "11"
+                imgUrl: Api.locationUrl + v.posterUrl,
+                label: utils.formatLabel(v.label),
+                orderStatus: v.isNeedPay == "1" ? "￥" + v.nonMBPrice : "免费",
+                status: (v.status == "99" || v.status == "3") ? "" : "立即报名"
             })
         })
         if (status == 2) {
@@ -54,10 +57,9 @@ Page({
         console.log(list)
         return list
     },
-    errorImg: function (e) {
-        var errorImgIndex = e.target.dataset.errorimg
-        var imgObject = "listCol[" + errorImgIndex + "].imgUrl"
-        var errorImg = {}
+    errorImage: function (e) {
+        let index = e.target.dataset.index, name = e.target.dataset.name
+        let imgObject = name + "[" + index + "].imgUrl", errorImg = {}
         errorImg[imgObject] = "../../images/loading.png"
         this.setData(errorImg)
     },
@@ -83,7 +85,7 @@ Page({
     redictAppDetail: function (e) {
         var id = e.currentTarget.dataset.id
         wx.navigateTo({
-            url: '../exhibition-details/exhibition-details'
+            url: '../exhibition-details/exhibition-details?id=' + id
         })
     },
 })

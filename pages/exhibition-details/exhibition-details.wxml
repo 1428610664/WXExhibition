@@ -1,4 +1,5 @@
 <import src="../../templates/login-popup.wxml" />
+<import src="../../wxParse/wxParse.wxml" />
 
 <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
 
@@ -15,25 +16,26 @@
             </view>
         </view>
         <view class='fz13 c2 cell-wrapper'>
-            <image src='/images/time.png'></image>
+            <view class='icon-wrapper'><image src='/images/time.png'></image></view>
             <text>{{itemData.beginTime}} - {{itemData.endTime}}</text>
         </view>
         <view class='fz13 c2 cell-wrapper'>
-            <image src='/images/address1.png'></image>
+            <view class='icon-wrapper'><image src='/images/address1.png'></image></view>
             <text>{{itemData.address}}</text>
         </view>
-        <view class='fz13 c2 cell-wrapper'>
-            <image src='/images/money.png'></image>
+        <view class='fz12 c2 cell-wrapper'>
+            <view class='icon-wrapper'><image src='/images/money.png'></image></view>
             <text class='c1' wx:if="{{itemData.isNeedPay == '0'}}">免费</text>
-            <text class='c1' wx:else>￥{{itemData.mbPrice}}</text>
+            <text class='fz13 c1' wx:else>￥{{itemData.nonMBPrice}} <text class='c2 fz10'>(会员专享价<text class='fz10 c1'>￥{{itemData.mbPrice}}</text>)</text></text>
         </view>
     </view>
 
     <view class='details'>
         <view class='cell-title'>
             <text class='c2 fz14'>活动详情</text>
-            <image class='more' src='/images/more.png'></image>
+            <!-- <image class='more' src='/images/more.png'></image> -->
         </view>
+        <!-- 
         <view class='content-desc'>
             <text class='fz12 c3'>{{itemData.content}}</text>
         </view>
@@ -41,6 +43,11 @@
             <text class='c2 fz13'>查看更多</text>
             <image src='/images/more1.png'></image>
         </view>
+         -->
+        <view class='entry-summary c3' style='margin-bottom: 60px;'>
+            <template is="wxParse" data="{{wxParseData: article.nodes}}" />
+        </view>
+        
     </view>
     
     <view class='footer-wrapper b'>
@@ -49,8 +56,8 @@
                 <image src='/images/home1.png'></image>
                 <text>首页</text>
             </view>
-            <view>
-                <image src='/images/like.png'></image>
+            <view catchtap='collectionEvent'>
+                <image src='{{likeImg}}'></image>
                 <text>收藏</text>
             </view>
             <view bindtap='shareExhubition'>
@@ -59,11 +66,13 @@
                 <button open-type="share" class='share-button'></button>
             </view>
         </view>
-        <view wx:if="{{status == 0}}" class='enroll-btn b1 c fz15' catchtap='enrollEvent'><text>立即报名</text></view>
+        <view wx:if="{{status == 1 && itemData.actualStatus && itemData.timeStatus}}" class='enroll-btn b1 c fz15' catchtap='enrollEvent'><text>立即报名</text></view>
+        <view wx:elif="{{status == 1 && !itemData.actualStatus}}" class='enroll-btn b2 c fz15'><text>报名已满</text></view>
+        <view wx:elif="{{status == 1 && !itemData.timeStatus}}" class='enroll-btn b2 c fz15'><text>已截止</text></view>
         <view wx:else class='enroll-btn b2 c fz15'>
-            <text wx:if="{{status == 1}}">执行中</text>
-            <text wx:if="{{status == 2}}">活动已暂停</text>
-            <text wx:if="{{status == 3}}">活动已结束</text>
+            <text wx:if="{{status == -1 || status == 0}}">未开始</text>
+            <text wx:if="{{status == 2}}">进行中</text>
+            <text wx:if="{{status == 99}}">已结束</text>
         </view>
     </view>
 

@@ -3,27 +3,48 @@ var Api = require('Api.js');
 var app = getApp()
 
 module.exports = {
-    getOpenId(code) {
-        request.get("https://api.weixin.qq.com/sns/jscode2session?appid=wx44024c68a5bc7399&secret=b67d4e2a4244989aa92982628e61faf9&js_code=" + code + "&grant_type=authorization_code", {}).then((res) => {
-            console.log(res.openid+"===========" + res.session_key)
-            console.log(JSON.stringify(app))
-            app.globalData.session_key = res.session_key
-            app.globalData.openid = res.openid
+    getOpenId(code, that) {
+        request.post(Api.getOpenId, {'code': code}).then((res) => {
+            if (res.success){
+                that.globalData.session_key = res.data.session_key
+                that.globalData.openId = res.data.openid
+                this.loginWechat(res.data.openid, that)
+            }
         }, (error) => {
 
         })
     },
-    loginWechat: function (openid){
-        console.log(Api.loginWechat+"=========openid-------" + openid)
-        /*request.post(Api.loginWechat, { wechat: "wechat"}).then((res) => {
-            console.log("---loginWechat-------"+JSON.stringify(res))
+    loginWechat: function (openid, that){
+        request.post(Api.loginWechat, { wechat: openid}).then((res) => {
+            if (res.success){
+                let member = res.data.member
+                that.globalData.memberId = member.id
+                that.globalData.userData = {
+                    phone: member.phone,
+                    email: member.email,
+                    nickName: member.nickName,
+                    name: member.name
+                }
+                wx.setStorageSync("sessionId", "JSESSIONID=" + res.data.sessionId)
+                if (that.globalData.userInfo)this.updateMembers(that.globalData.userInfo, that)
+            }
         }, (error) => {
             
-        })*/
-        request.get(Api.login, { phone: "11111111111", passWord:"123asd"}).then((res) => {
-            console.log("---loginWechat-------" + JSON.stringify(res))
-        }, (error) => {
-
         })
+    },
+    updateMembers: function (userInfo, app){
+        let parms = {
+            id: app.globalData.memberId,
+            nickName: userInfo.nickName,
+            sex: userInfo.gender == 1 ? "男" : userInfo.gender == 2 ? "女" : "未知",
+            address: userInfo.country + "-" + userInfo.province + "-" + userInfo.city,
+            img: userInfo.avatarUrl
+        }
+        request.post(Api.members, parms)
+            .then(res => {
+                console.log("updateMembers=="+JSON.stringify(res))
+            }, error => {
+
+            })
     }
 }

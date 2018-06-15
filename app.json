@@ -1,27 +1,37 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/perfect-information/perfect-information",
+        "pages/me/me",
         "pages/search/search",
         "pages/category/category",
-        "pages/data-statistics/data-statistics",
-        "pages/personnel-statistics/personnel-statistics",
-        "pages/sign-in-desk/sign-in-desk",
-        "pages/my-launch-details/my-launch-details",
-        "pages/my-launch/my-launch",
-        "pages/voucher-details/voucher-details",
-        "pages/me/me",
-        "pages/my-voucher/my-voucher",
         "pages/category-details/category-details",
         "pages/exhibition-details/exhibition-details",
-        "pages/search-details/search-details",
-        "pages/city/city",
-        "pages/my-attend/my-attend"
+        "pages/search-details/search-details"
+    ],
+    "subPackages": [
+        {
+            "root": "packageA",
+            "pages": [
+                "my-launch/my-launch",
+                "city/city",
+                "my-launch-details/my-launch-details",
+                "sign-in-desk/sign-in-desk",
+                "personnel-statistics/personnel-statistics",
+                "data-statistics/data-statistics",
+                "collection/collection",
+                "pay/pay",
+                "perfect-information/perfect-information",
+                "pay-callback/pay-callback",
+                "voucher-details/voucher-details",
+                "my-voucher/my-voucher",
+                "my-attend/my-attend"
+            ]
+        }
     ],
     "window": {
         "backgroundTextStyle": "dark",
         "navigationBarBackgroundColor": "#118fff",
-        "navigationBarTitleText": "科微展台",
+        "navigationBarTitleText": "聚展会",
         "navigationBarTextStyle": "white"
     },
     "tabBar": {

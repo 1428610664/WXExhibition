@@ -15,14 +15,14 @@
 
     <view class='cell b clear'>
         <text class='fz13 fl'>我的票劵</text>
-        <view class='fr' data-id="0" bindtap="voucherClick">
+        <view class='fr' data-id="0" bindtap="voucherEvent">
             <text class='fz10'>全部</text>
             <image src='/images/more.png' class='more-img'></image>
         </view>
     </view>
     <view class="top-Nav">
         <block wx:key="i" wx:for="{{navList}}">
-            <view class="top-item" style='width:10%; position: relative; float:left; text-align:center' data-id="{{item.id}}" bindtap="voucherClick">
+            <view class="top-item" style='width:10%; position: relative; float:left; text-align:center' data-id="{{item.id}}" bindtap="voucherEvent">
                 <view><image src="{{item.images}}"></image></view>
                 <view><text>{{item.name}}</text></view>
             </view>
@@ -30,7 +30,7 @@
     </view>
 
     <view class='c2'>
-        <view class='cell b clear' data-path="../my-launch/my-launch" bindtap="toPage">
+        <view class='cell b clear' data-path="/packageA/my-launch/my-launch" bindtap="toPage">
             <image src='/images/launch.png' class='fl cell-img'></image>
             <text class='fz13 fl'>我发起的</text>
             <view class='fr'>
@@ -38,7 +38,15 @@
                 <image src='/images/more.png' class='more-img'></image>
             </view>
         </view>
-        <view class='cell b clear' data-path="../my-attend/my-attend" bindtap="toPage">
+        <view class='cell b clear' data-path="/packageA/collection/collection" bindtap="toPage">
+            <image src='/images/collection.png' class='fl cell-img'></image>
+            <text class='fz13 fl'>我的收藏</text>
+            <view class='fr'>
+                <text class='fz10'></text>
+                <image src='/images/more.png' class='more-img'></image>
+            </view>
+        </view>
+        <view class='cell b clear' data-path="/packageA/my-attend/my-attend" bindtap="toPage">
             <image src='/images/list.png' class='fl cell-img'></image>
             <text class='fz13 fl'>我参加的</text>
             <view class='fr'>

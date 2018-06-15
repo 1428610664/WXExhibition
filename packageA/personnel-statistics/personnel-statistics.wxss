@@ -1,0 +1,7 @@
+.top-tab{position: fixed;top: 0; left: 0;z-index: 99;height:36px;width:750rpx;color:#333;font-size:14px;background-color: rgba(255,255,255,.95);display:flex;flex-flow:row nowrap;justify-content:space-around;align-items:stretch;}
+.top-tab .top-tab-item{flex-grow:1;height:36px;line-height:36px;text-align:center;border-bottom:1px solid #f6f6f6;}
+.top-tab-item.active{border-bottom:1px solid #118fff;color: #118fff;}
+
+.personnel-list .list-item{padding: 12rpx 20rpx;border-bottom: 4px solid #f6f6f6;position: relative;}
+.personnel-list .list-item .userPic{width: 100rpx; height: 100rpx; border-radius: 50%;vertical-align: middle;margin-right: 16rpx;}
+.personnel-list .list-item .siginPic{position: absolute;top: 30rpx;right: 30rpx;width: 120rpx; height: 120rpx;}

@@ -1,0 +1,60 @@
+<import src="../../wxParse/wxParse.wxml" />
+
+<view class='container'>
+    <image class="big-img" binderror="errorFunction" mode="aspectFill" src='{{imgUrl}}'></image>
+    <view class='fbox fz13 ct c2 head-tab'>
+        <view class='flex'>
+            <text>报名人</text>
+            <view class='c1'>待接入</view>
+        </view>
+        <!-- <view class='flex'>
+            <text>审核通过</text>
+            <view class='c1'>99</view>
+        </view> -->
+        <view class='flex'>
+            <text>签到人</text>
+            <view class='c1'>待接入</view>
+        </view>
+        <view class='flex'>
+            <text>未签到</text>
+            <view class='c1'>待接入</view>
+        </view>
+    </view>
+
+    <view class='header-wrapper'>
+        <view class='title-info'>
+            <text class='fz14 c2 name'>{{itemData.name}}</text>
+            <view class='tools clear'>
+                <text class='fz12 c3'>浏览 9999</text>
+                <text class='fz12 c3'>收藏 9999</text> 
+                <text class='fz14 c1 fr'>{{itemData.statusTxt}}</text>
+            </view>
+        </view>
+
+        <view class='fz13 c2 cell-wrapper'>
+            <view class='icon-wrapper'><image src='/images/time1.png'></image></view>
+            <text>会展时间: {{itemData.beginTime}} - {{itemData.endTime}}</text>
+        </view>
+        <view class='fz13 c2 cell-wrapper'>
+            <view class='icon-wrapper'><image src='/images/address1.png'></image></view>
+            <text>地址: {{itemData.address}}</text>
+        </view>
+        <view class='fz13 c2 cell-wrapper'>
+            <view class='icon-wrapper'><image src='/images/order.png'></image></view>
+            <text>活动概述</text>
+        </view>
+
+        <view class='entry-summary c3'>
+            <template is="wxParse" data="{{wxParseData: article.nodes}}" />
+        </view>
+        
+    </view>
+
+    <view class='footer fbox fz14 c b1'>
+        <view wx:if="{{statusEnd}}" class='flex b2' data-path="../sign-in-desk/sign-in-desk">活动签到</view>
+        <view wx:else class='flex' data-path="../sign-in-desk/sign-in-desk" bindtap='toPage'>活动签到</view>
+        <view class='flex' data-path="../personnel-statistics/personnel-statistics" bindtap='toPage'>人员统计</view>
+        <view class='flex b2' data-path="../data-statistics/data-statistics">数据统计</view>
+    </view>
+
+</view>

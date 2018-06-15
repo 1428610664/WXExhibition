@@ -1,0 +1,8 @@
+<import src="../../templates/common-list-col1.wxml" />
+<import src="../../templates/status.wxml" />
+<view  wx:if="{{status== 1 || status== 4}}">
+    <template is="tempCommonListCol1" data="{{list: listCol, name: 'listCol'}}" />
+</view>
+<view>
+    <template is="status" data="{{status}}" />
+</view>

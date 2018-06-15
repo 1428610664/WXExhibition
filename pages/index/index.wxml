@@ -21,30 +21,27 @@
 <view class='nav-wrapper'>
     <scroll-view class='nav' scroll-x="true" scroll-into-view="{{currentID}}" scroll-with-animation="true">
         <block wx:key="id" wx:for="{{navTabList}}">
-            <text bindtap="navTabItemClick" id="{{item.id}}" class="fz13 nav-item {{item.id == currentID ? 'on c1' : ''}}">{{item.name}}</text>
+            <text bindtap="navTabItemClick" id="{{item.id}}" data-data="{{item}}" class="fz13 nav-item {{item.id == currentID ? 'on c1' : ''}}">{{item.name}}</text>
         </block>
     </scroll-view>
     <image src='/images/add.png' bindtap="addCategoryClick" class='add-img'></image>
 </view>
 
-<view style="margin-top: 86px;" wx:if="{{status== 1}}">
+<view style="margin-top: 86px;" wx:if="{{status== 1 || status== 4}}">
     <!-- swiper -->
-    <view class="index-header" style="display:{{displaySwiper}}">
-        <swiper class="index-swiper" indicator-dots="true" circular="true" interval="4000" autoplay="true" indicator-color="rgba(255, 255, 255, .2)" indicator-active-color="rgba(17, 143, 255, .7)">
-            <block wx:key="id" wx:for="{{postsShowSwiperList}}">
-                <swiper-item id="{{item.id}}" index="{{index}}" data-redicttype="{{item.type}}" data-appid="{{item.appid}}" data-url="{{item.url}}" bindtap="redictAppDetail">
-                    <image mode="aspectFill" src="{{item.content_first_image}}" style="width:100%" />
+    <view class="index-header" wx:if="{{choiceList.length > 0}}">
+        <swiper class="index-swiper" indicator-dots="true" circular="true" interval="4000" autoplay="true" indicator-color="rgba(17, 143, 255, .2)" indicator-active-color="rgba(17, 143, 255, .7)">
+            <block wx:key="id" wx:for="{{choiceList}}">
+                <swiper-item data-id="{{item.id}}" bindtap="redictAppDetail">
+                    <image mode="aspectFill" binderror="errorImage" data-name="choiceList" data-index="{{index}}" src="{{item.imgUrl}}" style="width:100%" />
                     <view class="swiper-mask"></view>
-                    <view class="swiper-desc">
-                        <text>{{item.post_title}}</text>
-                    </view>
                 </swiper-item>
             </block>
         </swiper>
     </view>
     <!-- swiper -->
 
-    <!-- 图标导航 -->
+    <!-- 图标导航
     <view class="top-Nav">
         <block wx:key="i" wx:for="{{navList}}">
             <view class="top-item" style='width:10%; position: relative; float:left; text-align:center'>
@@ -53,17 +50,21 @@
                 <button class="share-button"></button>
             </view>
         </block>
-    </view>
+    </view> -->
     <!-- 图标导航 -->
-    <view class='quote-wrapper'>
-        <text class='c2'>—— 强力推荐 ——</text>
+    <view class='quote-wrapper quote-wrapper1 clear' wx:if="{{recommendList.length > 0}}">
+        <text class='c2'>强力推荐</text>
+        <view class='fz12 c3 fr' catchtap='anotherBatchEvent'>
+            <image src='../../images/refresh.png'></image>
+            <text>换一换</text>
+        </view>
     </view>
-    <template is="tempCommonList" data="{{list}}" />
-    <view class='quote-wrapper'>
-        <text class='c2'>—— 猜你喜欢 ——</text>
+    <template is="tempCommonList" data="{{list: recommendList, name: 'recommendList'}}" />
+    <view class='quote-wrapper' wx:if="{{list.length > 0}}">
+        <text class='c2'>—— 最新发布 ——</text>
     </view>
-    <template is="tempCommonListCol" />
+    <template is="tempCommonListCol" data="{{listCol: list, name: 'list'}}" />
 </view>
-<view style="margin-top: 86px;">
+<view style="margin-top: {{status != 4 ? '86px': '0px'}};">
     <template is="status" data="{{status}}" />
 </view>

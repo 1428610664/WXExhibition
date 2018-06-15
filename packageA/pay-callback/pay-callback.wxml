@@ -1,0 +1,8 @@
+<view class="wrapper">
+    <view class='content-wrapper'>
+        <image wx:if="{{status}}" src='/images/success.png'></image>
+        <image wx:else src='/images/error.png'></image>
+        <text class='fz12 c3'>{{text}}</text>
+        <view class='gohome c1 fz14' catchtap='toHome'>回到首页</view>
+    </view>
+</view>

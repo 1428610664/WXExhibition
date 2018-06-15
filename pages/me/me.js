@@ -1,10 +1,11 @@
+var auth = require('../../utils/auth.js')
 var app = getApp();
 
 Page({
   data: {
       isLoginPopup: false,
       userInfo: null,
-      navList: [{ name: '待参加', id: 1, images: "/images/coupons.png" }, { name: '待审核', id: 2, images: "/images/examine.png" }, { name: '待支付', id: 3, images: "/images/payment.png"}],
+      navList: [{ name: '待参加', id: 1, images: "/images/coupons.png" }, { name: '待支付', id: 2, images: "/images/payment.png" }, { name: '已结束', id: 3, images: "/images/examine.png" }],
   },
   onLoad: function (options) {
       
@@ -18,22 +19,17 @@ Page({
   },
   onShow: function () {
       if (app.globalData.userInfo) {
-          console.log("---app.globalData.userInfo---------"+JSON.stringify(app.globalData.userInfo))
           this.closeLoginPopup()
           this.setData({ userInfo: app.globalData.userInfo })
       }
   },
-  voucherClick: function(e){
-      var url = '../my-voucher/my-voucher?id=' + e.currentTarget.dataset.id;
-      wx.navigateTo({
-          url: url
-      })
+  voucherEvent: function(e){
+      var url = '/packageA/my-voucher/my-voucher?id=' + e.currentTarget.dataset.id
+      wx.navigateTo({url: url})
   },
   toPage: function(e){
-      var path = e.currentTarget.dataset.path;
-      wx.navigateTo({
-          url: path
-      })
+      var path = e.currentTarget.dataset.path
+      wx.navigateTo({url: path})
   },
   onShareAppMessage: function () {
   
@@ -44,6 +40,7 @@ Page({
       if (userInfo) {
           self.setData({ userInfo: userInfo })
           app.globalData.userInfo = userInfo
+          auth.updateMembers(userInfo, app)
           setTimeout(function () {
               self.setData({ isLoginPopup: false })
           }, 1200);

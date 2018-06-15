@@ -1,0 +1,27 @@
+<import src="../../templates/status.wxml" />
+
+<view class='container'>
+    <view class="top-tab">
+        <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-id="{{item.id}}" data-idx="{{idx}}" bindtap="switchTab">
+            {{item.name}}
+        </view>
+    </view>
+
+    <view class='personnel-list' style='margin-top: 37px;' wx:if="{{status== 1 || status== 4}}">
+         <block wx:key="i" wx:for="{{listCol}}">
+            <view class='list-item'>
+                <view>
+                    <image class='userPic' mode="aspectFill" src='{{item.memberImg}}'></image>
+                    <text class='fz13 c1'>{{item.memberName}}</text>
+                </view>
+                <view class='fz12 c3' style='padding: 16rpx 0 10rpx;'>{{item.signTime}}</view>
+                <image wx:if="{{item.status}}" class='siginPic' src='/images/signIn.png'></image>
+                <image wx:else class='siginPic' src='/images/notSignIn.png'></image>
+            </view>
+        </block>
+    </view>
+
+    <view style="margin-top: {{status != 4 ? '37px': '0px'}};">
+        <template is="status" data="{{status}}" />
+    </view>
+</view>

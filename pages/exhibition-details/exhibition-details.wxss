@@ -1,9 +1,14 @@
+@import "/wxParse/wxParse.wxss";
+
 .big-img{height: 220px;width: 100%;}
 .header-wrapper{padding: 0 12px;border-bottom:5px solid #f6f6f6;}
 .title-info{padding: 8px 0;}
 .title-info .tools > text{margin-right: 6px;}
-.cell-wrapper{line-height: 44px;border-top: 1px solid #f6f6f6;}
+.cell-wrapper{padding: 24rpx 0;border-top: 1px solid #f6f6f6;display: flex;}
+.cell-wrapper .icon-wrapper{align-items:center;justify-content:center;display:flex;}
 .cell-wrapper image{width: 16px;height: 16px;vertical-align: middle;margin: -2px 10px 0 0;}
+.cell-wrapper text{flex: 1;}
+
 .cell-title{position: relative;line-height: 42px;padding-left: 16px;border-bottom:1px solid #f6f6f6;}
 .cell-title > text::before{content: ""; display: block;width: 2px; height: 20px; background: #118fff; position: absolute; top: 11px; left: 0;}
 
@@ -15,7 +20,7 @@
 
 .footer-wrapper{position: fixed; bottom: 0;left: 0;width: 100%; height: 50px;display: flex}
 
-.lef-wrapper{width: 180px; height: 49px; border: 1px solid #f6f6f6;text-align: center;display: flex;color: #707070;}
+.lef-wrapper{width: 180px; height: 48px; border: 1px solid #f6f6f6;text-align: center;display: flex;color: #707070;}
 .lef-wrapper > view{display: flex;flex-direction:column;flex: 1;position: relative}
 .lef-wrapper > view:nth-child(n+1){border-left: 1px solid #f6f6f6;}
 .lef-wrapper image{width: 18px; height: 18px;margin: 8px auto 3px;}

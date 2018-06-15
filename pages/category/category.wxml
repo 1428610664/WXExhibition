@@ -36,7 +36,7 @@
 
 <view style='margin-top: 123px;' wx:if="{{status== 1 || status== 4}}">
     <!-- <scroll-view class="scrollView"  style="height:{{windowHeight}}px" scroll-y="true" bindscrolltolower="loadMoreData"> -->
-    <template is="tempCommonListCol" data="{{listCol}}"/>
+    <template is="tempCommonListCol" data="{{listCol: listCol, name: 'listCol'}}"/>
     <!-- </scroll-view> -->
 </view>
 

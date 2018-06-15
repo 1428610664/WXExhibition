@@ -1,0 +1,27 @@
+<view class='container'>
+
+    <view class='ct' wx:if="{{showCode}}">
+        <image class="codePic" mode="aspectFill" src='/images/code.jpg'></image>
+        <view class='fz12 c3 ct'>
+        <view class='c1 fz13' style='margin-bottom: 12rpx;'>签到二维码</view>
+        说明：活动签到/活动退场使用相同的页面</view>
+    </view>
+
+    <view wx:else>
+        <form catchsubmit="signInEvent" catchreset="formReset">
+            <view class='fz16 c3 ct' style='margin: 100rpx 0 36rpx;'>
+                <view class='c1 fz13' style='margin-bottom: 12rpx;'>输入签到码</view>
+            </view>
+            <view class='fbox form-wrapper'>
+                <input class='flex fz14' placeholder='请输入签到码' name="input" confirm-type="done" id='input' value='{{value}}' bindconfirm="signInEvent" placeholder-style="color: #ddd;"></input>
+                <button plain="true" form-type="submit" class="submit-btn c b1 fz13">签到</button>
+            </view>
+            <view class='fz12 c3 ct'>说明：活动签到/活动退场使用相同的页面</view>
+        </form>
+    </view>
+
+    <view class='footer fbox fz14 c b1'>
+        <view class='flex' data-mark="1" catchtap="swickEvent">扫描签到</view>
+        <view class='flex' catchtap='swickEvent'>手动签到码</view>
+    </view>
+</view>

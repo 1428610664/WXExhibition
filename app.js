@@ -5,39 +5,26 @@ var auth = require('utils/auth.js');
 App({
     onLaunch: function () {
         let that = this
+        this.globalData.userData = wx.getStorageSync("userData")
         wx.getUserInfo({
             success: function (res) {
                 that.globalData.userInfo = res.userInfo
             }, fail: function () {
-                /*wx.showModal({
-                    title: '警告',
-                    showCancel: false,
-                    content: '您点击了拒绝授权,将无法正常显示个人信息,点击确定重新获取授权。',
-                    success: function (res) {
-                        if (res.confirm) {
-                            wx.openSetting({
-                                success: (res) => {
-                                    console.log(JSON.stringify(res))
-                                    if (res.authSetting["scope.userInfo"]) {
-                                        wx.getUserInfo({
-                                            success: function (res) {
-                                                that.globalData.userInfo = res.userInfo
-                                            }
-                                        })
-                                    }
-                                }, fail: function (res) {
-    
-                                }
-                            })
-    
-                        }
-                    }
-                })*/
+                
             }, complete: function (res) {
 
             }
         })
+
         wx.login({
+            success: function (res) {
+                console.log(res.code + '==login====' + JSON.stringify(res))
+                auth.getOpenId(res.code, that)
+            }
+        })
+
+        //auth.loginWechat("", this)
+        /*wx.login({
             success: function (res) {
                 console.log(res.code + '==login====' + JSON.stringify(res))
                 wx.request({
@@ -48,16 +35,20 @@ App({
                         console.log('login====' + JSON.stringify(res))
                         that.globalData.session_key = res.data.session_key
                         that.globalData.openid = res.data.openid
-                        auth.loginWechat(that.globalData.openid)
+                        auth.loginWechat(that.globalData.openid, that)
                     }
                 })
             }
-        })
+        })*/
     },
     globalData: {
-        phoneNumber: '',
-        userInfo: null,
+        sessionId: '',
+        memberId: '',
         session_key: '',
-        openid: ''
+        openId: '',
+        member: null,       // 登录返回数据
+        userData: null,     // 用户名、手机、邮箱、昵称数据
+        userInfo: null,     // 用户授权数据
+        activityData: null  // 活动跳转数据
     }
 })

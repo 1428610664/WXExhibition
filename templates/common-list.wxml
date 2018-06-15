@@ -2,11 +2,11 @@
     <view class="common-list clear">
         <block wx:key="i" wx:for="{{list}}">
             <view class='list-item' data-id="{{item.id}}" bindtap="redictAppDetail">
-                <image mode="aspectFill" class='img' binderror="binderrorimg" data-errorimg="{{index}}" lazy-load="true" src='{{item.imgUrl}}'></image>
+                <image mode="aspectFill" class='img' binderror="errorImage" data-name="{{name}}" data-index="{{index}}" lazy-load="true" src='{{item.imgUrl}}'></image>
                 <text class='name hzline2 fz13'>{{item.name}}</text>
                 <view class='tools fz11 clear c3'>
                     <text class='address fl'>{{item.address}}</text>
-                    <text class='address fr'>{{item.time}}</text>
+                    <text class=' fr'>{{item.time}}</text>
                 </view>
             </view>
         </block>

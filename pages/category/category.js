@@ -1,6 +1,7 @@
 var Api = require('../../utils/Api.js');
 var request = require('../../utils/request.js')
 var utils = require('../../utils/util.js')
+var auth = require('../../utils/auth.js')
 const app = getApp()
 Page({
     data: {
@@ -11,7 +12,7 @@ Page({
         pageNo: 1,
         pageTotal: 0,
         listCol: [],
-        requestParms: { offset: 1, limit: 10, order: 'asc' },
+        requestParms: { status: ">= 1", offset: 1, limit: 10, order: 'asc' },
 
         topTabItems: ["全部", "行业", "生活", "亲子", "学习"],
         currentTopItem: 0,
@@ -42,10 +43,10 @@ Page({
             request.get(Api.getHomeList, this.data.requestParms).then((res) => {
                 wx.hideLoading()
                 if (status == 1) wx.stopPullDownRefresh()
-                if (res.data.rows) {
+                if (res.data.total > 0) {
                     this.setData({ pageTotal: res.data.total, status: 1, listCol: this._formatListData(res.data.rows, status) })
                 } else {
-                    this.setData({ status: 2 })
+                    this.setData({status: 2})
                 }
 
             }, (error) => {
@@ -63,14 +64,16 @@ Page({
                 name: v.name,
                 time: utils.format(v.createTime.time),
                 address: v.address,
-                imgUrl: v.imgUrl | "11"
+                imgUrl: Api.locationUrl + v.posterUrl,
+                label: utils.formatLabel(v.label),
+                orderStatus: v.isNeedPay == "1" ? "￥" + v.nonMBPrice : "免费",
+                status: (v.status == "99" || v.status == "3") ? "" : "立即报名"
             })
         })
         if (status == 2) {
             list = this.data.listCol.concat(list)
             this.setData({ pageNo: this.data.pageNo + 1 })
         }
-        console.log(list)
         return list
     },
     onPullDownRefresh: function () {
@@ -92,7 +95,9 @@ Page({
         wx.showLoading({ title: '加载中' })
     },
     toCity: function () {
-        wx.navigateTo({url: '../city/city'})
+        wx.navigateTo({
+            url: '/packageA/city/city'
+        })
     },
     switchTab: function (e) {
         wx.showToast({ title: 'id:' + e.currentTarget.dataset.idx })
@@ -127,10 +132,9 @@ Page({
         sortListTitle[this.data.selectIndex] = e.currentTarget.dataset.data
         this.setData({ showMask: "none", selectIndex: -1, sortListTitle: sortListTitle})
     },
-    errorImg: function (e) {
-        var errorImgIndex = e.target.dataset.errorimg
-        var imgObject = "listCol[" + errorImgIndex + "].imgUrl"
-        var errorImg = {}
+    errorImage: function (e) {
+        let index = e.target.dataset.index, name = e.target.dataset.name
+        let imgObject = name + "[" + index + "].imgUrl", errorImg = {}
         errorImg[imgObject] = "../../images/loading.png"
         this.setData(errorImg)
     },
@@ -146,6 +150,7 @@ Page({
         if (userInfo) {
             self.setData({ userInfo: userInfo })
             app.globalData.userInfo = userInfo
+            auth.updateMembers(userInfo, app)
             setTimeout(function () {
                 self.setData({ isLoginPopup: false })
             }, 1200);

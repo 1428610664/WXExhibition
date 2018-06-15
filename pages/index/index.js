@@ -1,19 +1,30 @@
 //index.js
 //获取应用实例
 const app = getApp()
-var Api = require('../../utils/Api.js');
-var wxRequest = require('../../utils/wxRequest.js')
+var Api = require('../../utils/Api.js')
 var request = require('../../utils/request.js')
 var utils = require('../../utils/util.js')
+var auth = require('../../utils/auth.js')
+
+
 Page({
     data: {
-        isLoginPopup: false,
         userInfo: null,
+        isLoginPopup: false,
+
         status: 0,
-        showallDisplay:"none",
-        displaySwiper: "none",
-        postsShowSwiperList: [],
+        pageNo: 1,
+        pageTotal: 0,
         list: [],
+        requestParms: { status: ">= 1",offset: 1, limit: 10, order: 'asc' },
+
+        choiceList: [],     // 精选列表
+        choiceParms: { status: ">= 1", importance: 1 },
+        recommendList: [],  // 推荐列表
+        recommendNo: 1,
+        recommendTotal: 0,
+        recommendParms: { offset: 1, limit: 6, order: 'asc', status: ">= 1", importance: 2 },
+
         navList: ['个人榜', '活动日历', '认证活动','收藏'],
         currentID: "nav1",
         navTabList: [
@@ -39,8 +50,9 @@ Page({
         }
     },
     onLoad: function () {
-        this.fetchTopFivePosts();
-        this.requestList();
+        this.requestChoice()
+        this.requestRecommend()
+        this.requestList()
     },
     onShareAppMessage: function () {
         return {
@@ -54,61 +66,49 @@ Page({
             }
         }
     },
-    requestList: function(){
-        request.get(Api.getHomeList, { offset: 1, limit: 20, order: 'asc' }).then((res)=>{
-            if (res.data.rows){
-                this.setData({ status: 1, list: this._formatListData(res.data.rows) })
-            }else{
-                this.setData({ status:  2})
+    requestChoice: function(){
+        request.get(Api.getHomeList, this.data.choiceParms)
+        .then(res => {
+            if (res.success){
+                this.setData({choiceList: this._formatListData(res.data.rows)})
             }
-            
-        }, (error) => {
-            this.setData({status: 3})
         })
     },
-    binderrorimg: function(e){
-        var errorImgIndex = e.target.dataset.errorimg
-        var imgObject = "list[" + errorImgIndex + "].imgUrl"
-        var errorImg = {}
+    requestRecommend: function(){
+        request.get(Api.getHomeList, this.data.recommendParms)
+            .then(res => {
+                if (res.success) {
+                    this.setData({ 
+                        recommendTotal: res.data.total,
+                        recommendList: this._formatListData(res.data.rows)
+                    })
+                }
+            })
+    },
+    requestList: function (status) { // status： 1(下拉刷新) 、2(上拉加载) 
+        setTimeout(() => {
+            request.get(Api.getHomeList, this.data.requestParms).then((res)=>{
+                wx.hideLoading()
+                if (status == 1) wx.stopPullDownRefresh()
+                if (res.data.rows){
+                    this.setData({ status: 1, pageTotal: res.data.total, list: this._formatListData(res.data.rows, status)})
+                }else{
+                    this.setData({ status:  2})
+                }
+            }, (error) => {
+                wx.hideLoading()
+                if (status == 1) wx.stopPullDownRefresh()
+                this.setData({status: 3})
+            })
+        }, 800)
+    },
+    errorImage: function(e){
+        let index = e.target.dataset.index, name = e.target.dataset.name
+        let imgObject = name + "[" + index + "].imgUrl", errorImg = {}
         errorImg[imgObject] = "../../images/loading.png"
         this.setData(errorImg)
     },
-    fetchTopFivePosts: function () {
-        var self = this;
-        var getPostsRequest = wxRequest.getRequest(Api.getSwiperPosts());
-        getPostsRequest.then(response => {
-            if (response.data.status == '200' && response.data.posts.length > 0) {
-                self.setData({
-                    postsShowSwiperList: response.data.posts,
-                    showallDisplay: "block",
-                    displaySwiper: "block"
-                });
-            }
-            else {
-                self.setData({
-                    displaySwiper: "none",
-                    displayHeader: "block",
-                    showallDisplay: "block",
-                });
-            }
-
-        })
-            .then(response => {
-                // self.fetchPostsData(self.data);
-
-            })
-            .catch(function (response) {
-                //   self.setData({
-                //       showerror: "block",
-                //       floatDisplay: "none"
-                //   });
-
-            })
-            .finally(function () {
-
-            });
-    },
-    _formatListData: function(data){
+    _formatListData: function (data, status){
         let list = []
         data.forEach((v, i) => {
             list.push({
@@ -116,19 +116,45 @@ Page({
                 name: v.name,
                 time: utils.format(v.createTime.time),
                 address: v.address,
-                imgUrl: v.imgUrl | "11"
+                imgUrl: Api.locationUrl + v.posterUrl,
+                label: utils.formatLabel(v.label),
+                orderStatus: v.isNeedPay == "1" ? "￥" +v.nonMBPrice: "免费",
+                status: (v.status == "99" || v.status == "3") ? "" : "立即报名"
             })
         })
+        if (status == 2) {
+            list = this.data.list.concat(list)
+            this.setData({ pageNo: this.data.pageNo + 1 })
+        }
         return list
     },
     onPullDownRefresh: function () {
-        setTimeout(() => {
-            wx.stopPullDownRefresh()
-        }, 2000)
-        wx.showToast({ title: 'onPullDownRefresh'})
+        this.swichCategory()
     },
     onReachBottom: function () {
-        wx.showToast({ title: 'loadMoreData' })
+        if (this.data.pageTotal <= this.data.list.length) {
+            this.setData({ status: 4 })
+            return
+        }
+        var requestParms = this.data.requestParms
+        requestParms.offset = requestParms.limit * this.data.pageNo
+        this.setData({ requestParms: requestParms })
+        this.requestList(2)
+        wx.showLoading({ title: '加载中' })
+    },
+    anotherBatchEvent: function(e){
+        let count = Math.ceil(this.data.recommendTotal / 6), 
+            recommendParms = this.data.recommendParms
+
+        if (count <= this.data.recommendNo){
+            recommendParms.offset = 1
+            this.setData({ recommendNo: 1})
+        }else{
+            recommendParms.offset = this.data.recommendNo * 6
+            this.setData({ recommendNo: this.data.recommendNo + 1})
+        }
+        this.setData({ recommendParms: recommendParms })
+        this.requestRecommend()
     },
     // 扫码
     scanCode: function(){
@@ -149,9 +175,7 @@ Page({
         })
     },
     toCity: function(){
-        wx.navigateTo({
-            url: '../city/city'
-        })
+        wx.navigateTo({url: '/packageA/city/city'})
     },
     // 跳转至查看小程序列表页面或文章详情页
     redictAppDetail: function (e) {
@@ -171,16 +195,45 @@ Page({
         })
     },
     navTabItemClick: function(e){
-        let id = e.currentTarget.id;
-        this.setData({ currentID: id})
+        let data = e.currentTarget.dataset.data
+        if (data.id == this.data.currentID) return
+        console.log(JSON.stringify(data))
+        this.setData({ currentID: data.id })
+        this.swichCategory(data.name == "精选" ? '' : data.name)
+    },
+    swichCategory: function (category){
+        var requestParms = this.data.requestParms,
+            recommendParms = this.data.recommendParms,
+            choiceParms = this.data.choiceParms
+        requestParms.offset = 1
+        recommendParms.offset = 1
+        if (typeof category == "string"){
+            requestParms.style = category
+            recommendParms.style = category
+            choiceParms.style = category
+        }
+        this.setData({
+            status: 1,
+            pageNo: 1,
+            recommendNo: 1,
+            recommendParms: recommendParms,
+            requestParms: requestParms,
+            choiceParms: choiceParms
+        })
+        this.requestList(1)
+        this.requestChoice()
+        this.requestRecommend()
+        wx.showLoading({ title: '加载中' })
     },
 
     agreeGetUser: function (e) {
+        console.log(JSON.stringify(e))
         var userInfo = e.detail.userInfo;
         var self = this;
         if (userInfo) {
             self.setData({ userInfo: userInfo })
             app.globalData.userInfo = userInfo
+            auth.updateMembers(userInfo, app)
             setTimeout(function () {
                 self.setData({ isLoginPopup: false })
             }, 1200);
