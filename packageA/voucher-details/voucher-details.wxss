@@ -2,6 +2,7 @@
 .big-img{height: 500rpx;width: 500rpx;margin: 12rpx auto 20rpx;}
 .header-wrapper{padding: 0 12px;border-bottom:5px solid #f6f6f6;}
 .title-info{padding: 8px 0;border-top: 1px solid #f6f6f6;margin-top: 36rpx;}
+.title-info .tools{margin-top: 8px;}
 .title-info .tools > text{margin-right: 6px;}
 
 .cell-wrapper{padding: 24rpx 0;border-top: 1px solid #f6f6f6;display: flex;}

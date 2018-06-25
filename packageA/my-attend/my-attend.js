@@ -10,7 +10,7 @@ Page({
         pageNo: 1,
         pageTotal: 0,
         listCol: [],
-        requestParms: { offset: 1, limit: 10, order: 'asc', memberId: "", activityStatus: "99",orderStatus: "1"}
+        requestParms: { offset: 1, limit: 10, order: 'asc', memberId: "", activityStatus: "99",orderStatus: "1,3"}
     },
     onLoad: function (options) {
     },
@@ -41,13 +41,14 @@ Page({
         let list = []
         data.forEach((v, i) => {
             list.push({
-                id: v.id,
+                id: v.orderId,
                 name: v.name,
                 time: utils.format(v.createTime.time),
                 address: v.address,
                 status: v.status,
                 statusTxt: utils.formatStatus(v.status),
-                imgUrl: Api.locationUrl + v.posterUrl
+                imgUrl: Api.locationUrl + v.posterUrl,
+                acticityStatus: v.status
             })
         })
         if (status == 2) {
@@ -82,7 +83,9 @@ Page({
         wx.showLoading({ title: '加载中' })
     },
     redictAppDetail: function (e) {
-        let id = e.currentTarget.dataset.id
-        wx.navigateTo({url: '/pages/exhibition-details/exhibition-details?id=' + id})
+        let id = e.currentTarget.dataset.id,
+            item = e.currentTarget.dataset.item,
+            path = '../voucher-details/voucher-details?id=' + id + "&status=" + item.acticityStatus
+        wx.navigateTo({ url: path })
     }
 })

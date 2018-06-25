@@ -12,7 +12,7 @@ Page({
         pageNo: 1,
         pageTotal: 0,
         listCol: [],
-        requestParms: { status: ">= 1", offset: 1, limit: 10, order: 'asc' },
+        requestParms: { status: ">=1", offset: 1, limit: 10, order: 'asc' },
 
         topTabItems: ["全部", "行业", "生活", "亲子", "学习"],
         currentTopItem: 0,
@@ -67,7 +67,7 @@ Page({
                 imgUrl: Api.locationUrl + v.posterUrl,
                 label: utils.formatLabel(v.label),
                 orderStatus: v.isNeedPay == "1" ? "￥" + v.nonMBPrice : "免费",
-                status: (v.status == "99" || v.status == "3") ? "" : "立即报名"
+                status: (v.status == "99" || v.status == "2" || v.status == "3") ? "" : "立即报名"
             })
         })
         if (status == 2) {

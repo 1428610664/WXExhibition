@@ -31,7 +31,7 @@
     "window": {
         "backgroundTextStyle": "dark",
         "navigationBarBackgroundColor": "#118fff",
-        "navigationBarTitleText": "聚展会",
+        "navigationBarTitleText": "聚热会",
         "navigationBarTextStyle": "white"
     },
     "tabBar": {

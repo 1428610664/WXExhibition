@@ -6,12 +6,13 @@ var app = getApp()
 Page({
     data: {
         id: "",
+        signUrl: '',
         showCode: true,
         value: ""
     },
     onLoad: function (options) {
         console.log(options)
-        this.setData({id: options.id})
+        this.setData({ id: options.id, signUrl: options.signUrl})
     },
     onReady: function () {
 

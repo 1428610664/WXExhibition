@@ -21,7 +21,7 @@
 <view class='nav-wrapper'>
     <scroll-view class='nav' scroll-x="true" scroll-into-view="{{currentID}}" scroll-with-animation="true">
         <block wx:key="id" wx:for="{{navTabList}}">
-            <text bindtap="navTabItemClick" id="{{item.id}}" data-data="{{item}}" class="fz13 nav-item {{item.id == currentID ? 'on c1' : ''}}">{{item.name}}</text>
+            <text bindtap="navTabItemClick" id="{{'nav' + index}}" data-data="{{item}}" class="fz13 nav-item {{'nav'+index == currentID ? 'on c1' : ''}}">{{item.name}}</text>
         </block>
     </scroll-view>
     <image src='/images/add.png' bindtap="addCategoryClick" class='add-img'></image>
@@ -31,7 +31,7 @@
     <!-- swiper -->
     <view class="index-header" wx:if="{{choiceList.length > 0}}">
         <swiper class="index-swiper" indicator-dots="true" circular="true" interval="4000" autoplay="true" indicator-color="rgba(17, 143, 255, .2)" indicator-active-color="rgba(17, 143, 255, .7)">
-            <block wx:key="id" wx:for="{{choiceList}}">
+            <block wx:key="id" wx:for="{{choiceList}}" wx:if="{{index <= 5}}">
                 <swiper-item data-id="{{item.id}}" bindtap="redictAppDetail">
                     <image mode="aspectFill" binderror="errorImage" data-name="choiceList" data-index="{{index}}" src="{{item.imgUrl}}" style="width:100%" />
                     <view class="swiper-mask"></view>

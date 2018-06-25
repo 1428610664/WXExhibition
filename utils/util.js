@@ -44,6 +44,7 @@ const formatDate = (d, format) => {
 
 
 const formatLabel = d => {
+    if (!d) return ""
     let list = d.split(","), str = ''
     list.forEach((v, i) => {
         str += "#" + v +" "
@@ -60,9 +61,9 @@ const formatStatus = s => {
         case 1:
             return "未开始"
         case 2:
-            return "执行中"
+            return "进行中"
         case 3:
-            return "暂停"
+            return "已取消"
         case 99:
             return "结束"
     }

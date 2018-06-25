@@ -9,10 +9,17 @@ module.exports = {
                 method: type ? type : "POST",
                 url: url,
                 data: data,
+                xhrFields: {
+                    withCredentials: true
+                },
                 // header: { 'content-type': 'application/json'},
+                // Access-Control-Allow-Credentials: true
                 header: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    "Cookie": sessionId ? sessionId : ""
+                    "Cookie": sessionId ? sessionId : "",
+                    xhrFields: {
+                        withCredentials: true
+                    }
                 },
                 success: function (res) {
                     resolve(res.data)

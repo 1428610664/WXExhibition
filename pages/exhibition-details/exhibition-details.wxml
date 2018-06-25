@@ -32,6 +32,20 @@
 
     <view class='details'>
         <view class='cell-title'>
+            <text class='c2 fz14'>活动摘要</text>
+            <!-- <image class='more' src='/images/more.png'></image> -->
+        </view>
+        <view class='entry-summary c3'>
+            {{itemData.remark}}
+        </view>
+        <view class='cell-title'>
+            <text class='c2 fz14'>活动议程</text>
+            <!-- <image class='more' src='/images/more.png'></image> -->
+        </view>
+        <view class='entry-summary c3'>
+            {{itemData.agenda}}
+        </view>
+        <view class='cell-title'>
             <text class='c2 fz14'>活动详情</text>
             <!-- <image class='more' src='/images/more.png'></image> -->
         </view>

@@ -4,20 +4,16 @@
     <image class="big-img" binderror="errorFunction" mode="aspectFill" src='{{imgUrl}}'></image>
     <view class='fbox fz13 ct c2 head-tab'>
         <view class='flex'>
-            <text>报名人</text>
-            <view class='c1'>待接入</view>
+            <text>活动票数</text>
+            <view class='c1'>{{itemData.number}}</view>
         </view>
-        <!-- <view class='flex'>
-            <text>审核通过</text>
-            <view class='c1'>99</view>
-        </view> -->
+        <view class='flex'>
+            <text>报名人</text>
+            <view class='c1'>{{itemData.numberActual}}</view>
+        </view>
         <view class='flex'>
             <text>签到人</text>
-            <view class='c1'>待接入</view>
-        </view>
-        <view class='flex'>
-            <text>未签到</text>
-            <view class='c1'>待接入</view>
+            <view class='c1'>{{itemData.orderNumber}}</view>
         </view>
     </view>
 

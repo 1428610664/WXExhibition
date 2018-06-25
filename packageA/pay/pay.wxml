@@ -25,7 +25,7 @@
     <view>
         <view class='info-wrapper fz12 c3 b' wx:if="{{itemData.isNeedPay == 1}}">
             <view class='c1 fz16 title'>收费票</view>
-            <view class='item-wrapper c1 fz14'>￥{{price}}</view>
+            <view class='item-wrapper c1 fz14'>￥{{price}} <text class='fz11 c3' wx:if="{{isVip}}">(会员价格)</text></view>
             <view class='item-wrapper clear'>
                 购买数量
                 <view class='number-wrapper fr'>

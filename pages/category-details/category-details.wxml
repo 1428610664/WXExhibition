@@ -1,7 +1,7 @@
 <import src="../../templates/category-list.wxml" />
 <view>
     <view class='clear'>
-        <text bindtap="editClick" class='c2 fr fz13' style='padding: 18rpx 18rpx 0 18rpx;'>{{editTxt}}</text>
+        <text bindtap="editEvent" class='c2 fr fz13' style='padding: 18rpx 18rpx 0 18rpx;'>{{editTxt}}</text>
     </view>
     <template is="categoryList" data="{{existData: existData,isEdit: isEdit}}" />
     <template is="categoryList" data="{{listData: listData, isEdit: isEdit}}" />

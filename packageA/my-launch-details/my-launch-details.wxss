@@ -4,6 +4,7 @@
 .head-tab{padding-top: 32rpx;}
 .header-wrapper{margin-bottoom: 92rpx;padding: 0 12px;border-bottom:5px solid #f6f6f6;}
 .title-info{padding: 8px 0;border-top: 1px solid #f6f6f6;margin-top: 36rpx;}
+.title-info .tools{margin-top: 8px;}
 .title-info .tools > text{margin-right: 6px;}
 .cell-wrapper{padding: 24rpx 0;border-top: 1px solid #f6f6f6;display: flex;}
 .cell-wrapper .icon-wrapper{align-items:center;justify-content:center;display:flex;}

@@ -1,11 +1,11 @@
 <template name="tempCommonListCol">
     <view class='common-list-col' wx:if="{{listCol}}">
         <block wx:key="i" wx:for="{{listCol}}">
-            <view class='common-list-col-item' data-item="{{item}}" data-id="{{item.id}}" bindtap="redictAppDetail">
+            <view class='common-list-col-item' data-item="{{item}}" data-index="{{index}}" data-id="{{item.id}}" bindtap="redictAppDetail">
                 <view class='clear'>
                     <image mode="aspectFill" lazy-load="true" class='img fl'  binderror="errorImage" data-index="{{index}}" data-name="{{name}}" src='{{item.imgUrl}}'></image>
                     <view class='content-wrapper fl'>
-                        <view>
+                        <view class='hzline2'>
                             <text class='name fz14'>{{item.name}}</text> 
                         </view>
                         <view><text class='fz12 c3'>{{item.address}}</text></view>

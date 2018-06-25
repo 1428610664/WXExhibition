@@ -4,10 +4,12 @@ var utils = require('../../utils/util.js')
 
 Page({
     data: {
+        status: 0,
+        
         pageNo: 1,
         pageTotal: 0,
         listCol: [],
-        requestParms: { status: ">= 1", keyWord: '', offset: 1, limit: 10, order: 'asc' }
+        requestParms: { status: ">=1", keyWord: '', offset: 1, limit: 10, order: 'asc' }
     },
     onLoad: function (options) {
         console.log(options.search)
@@ -47,7 +49,7 @@ Page({
                 imgUrl: Api.locationUrl + v.posterUrl,
                 label: utils.formatLabel(v.label),
                 orderStatus: v.isNeedPay == "1" ? "￥" + v.nonMBPrice : "免费",
-                status: (v.status == "99" || v.status == "3") ? "" : "立即报名"
+                status: (v.status == "99" || v.status == "2" || v.status == "3") ? "" : "立即报名"
             })
         })
         if (status == 2) {

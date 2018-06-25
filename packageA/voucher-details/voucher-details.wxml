@@ -32,7 +32,7 @@
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <view class='icon-wrapper'><image src='/images/money.png'></image></view>
-            <text>金额: ￥{{voucher.ordersPriceTotal}}</text>
+            <text>金额: ￥{{voucher.ordersPriceActual}}</text>
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <view class='icon-wrapper'><image src='/images/order.png'></image></view>

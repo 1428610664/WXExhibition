@@ -153,7 +153,7 @@ function html2json(html, bindName) {
                 }
                 imgUrl = wxDiscode.urlToHttpUrl(imgUrl, __placeImgeUrlHttps);
                 if (imgUrl.indexOf("http") == -1){
-                    imgUrl = "https://pmp.coreware.cn/acm" + imgUrl
+                    imgUrl = "https://pmp.coreware.cn/gather" + imgUrl
                 }
                 node.attr.src = imgUrl;
                 node.from = bindName;

@@ -26,10 +26,11 @@ Page({
         this.requestKeeps()
 
         if (options.memberId){
-            wx.showModal({
+            console.log('转发进来-----------memberId==' + options.memberId)
+            /*wx.showModal({
                 title: '转发进来',
                 content: 'memberId==' + options.memberId,
-            })
+            })*/
         }
     },
     onReady: function () {
@@ -64,8 +65,9 @@ Page({
             mbPrice: data.mbPrice,
             nonMBPrice: data.nonMBPrice,
             actualStatus: data.number - data.numberActual > 0,
-            timeStatus: data.applyEndTime.time > new Date().getTime()
-
+            timeStatus: data.applyEndTime.time > new Date().getTime(),
+            agenda: data.agenda,
+            remark: data.remark
         }
         WxParse.wxParse('article', 'html', data.content, this, 5);
         this.setData({ imgUrl: Api.locationUrl + data.posterUrl, itemData: d, status: data.status })

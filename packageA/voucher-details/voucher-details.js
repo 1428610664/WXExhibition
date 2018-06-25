@@ -40,7 +40,7 @@ Page({
                 voucher.activityName = v.activityName
                 voucher.activityAddress = v.activityAddress
                 voucher.memberPhone = v.memberPhone
-                voucher.ordersPriceTotal = v.ordersPriceTotal
+                voucher.ordersPriceActual = v.ordersPriceActual
                 voucher.ordersId = v.ordersId
                 voucher.activityBeginTime = utils.formatDate(v.activityBeginTime.time, "yyyy-MM-dd hh:mm")
                 voucher.activityEndTime = utils.formatDate(v.activityEndTime.time, "yyyy-MM-dd hh:mm")

@@ -16,7 +16,7 @@ Page({
         pageNo: 1,
         pageTotal: 0,
         list: [],
-        requestParms: { status: ">= 1",offset: 1, limit: 10, order: 'asc' },
+        requestParms: { status: ">=1",offset: 1, limit: 10, order: 'asc' },
 
         choiceList: [],     // 精选列表
         choiceParms: { status: ">= 1", importance: 1 },
@@ -26,17 +26,15 @@ Page({
         recommendParms: { offset: 1, limit: 6, order: 'asc', status: ">= 1", importance: 2 },
 
         navList: ['个人榜', '活动日历', '认证活动','收藏'],
-        currentID: "nav1",
-        navTabList: [
-            { name: "精选", id: "nav1"},
-            { name: "IT互联网", id: "nav2" },
-            { name: "创业", id: "nav3" },
-            { name: "科技", id: "nav4" },
-            { name: "金融", id: "nav5" },
-            { name: "演出", id: "nav6" }]
+        currentID: "nav0",
+        navTabList: []
     },
     //生命周期函数-监听页面初次渲染完毕
     onReady: function () {
+        let existData = wx.getStorageSync("navTabList")
+        if (existData) app.globalData.navTabList = existData
+        console.log("-------------" + existData)
+        this.setData({ navTabList: existData ? existData : app.globalData.navTabList})
         if (app.globalData.userInfo) {
             this.setData({ userInfo: app.globalData.userInfo })
         } else {
@@ -48,6 +46,21 @@ Page({
             this.closeLoginPopup()
             this.setData({ userInfo: app.globalData.userInfo })
         }
+        let flag = this.watchCategory()
+        if(flag){
+            this.setData({ currentID: "nav0", navTabList: app.globalData.navTabList})
+            this.swichCategory('')
+        }
+    },
+    watchCategory: function(){
+        let gNavTabList = app.globalData.navTabList,
+            navTabList = this.data.navTabList,
+            mark = false
+        if (gNavTabList.length != navTabList.length) return true
+        navTabList.forEach((v, i) => {
+            if (v.name != gNavTabList[i].name) mark = true
+        })
+        return mark
     },
     onLoad: function () {
         this.requestChoice()
@@ -56,7 +69,7 @@ Page({
     },
     onShareAppMessage: function () {
         return {
-            title: '测试分享文字',
+            title: '聚热会',
             path: 'pages/index/index',
             success: function (res) {
                 // 转发成功
@@ -119,7 +132,7 @@ Page({
                 imgUrl: Api.locationUrl + v.posterUrl,
                 label: utils.formatLabel(v.label),
                 orderStatus: v.isNeedPay == "1" ? "￥" +v.nonMBPrice: "免费",
-                status: (v.status == "99" || v.status == "3") ? "" : "立即报名"
+                status: (v.status == "99" || v.status == "2" || v.status == "3") ? "" : "立即报名"
             })
         })
         if (status == 2) {
@@ -160,17 +173,27 @@ Page({
     scanCode: function(){
         wx.scanCode({
             success: (res) => {
-                wx.showModal({
-                    title: '扫码',
-                    content: JSON.stringify(res),
-                    success: function (res) {
-                        if (res.confirm) {
-                            console.log('用户点击确定')
-                        } else if (res.cancel) {
-                            console.log('用户点击取消')
-                        }
-                    }
-                })
+                console.log(JSON.stringify(res) + "---------------" + JSON.stringify({ activityId: res.result, memberId: app.globalData.memberId }))
+                wx.showLoading()
+                request.post(Api.ticketSign, { signType: 1,activityId: res.result, memberId: app.globalData.memberId})
+                    .then(res => {
+                        console.log(JSON.stringify(res))
+                        wx.hideLoading()
+                        wx.showToast({ icon: "none", title: res.desc })
+                    }, error => {
+                        wx.hideLoading()
+                    })
+                // wx.showModal({
+                //     title: '扫码',
+                //     content: JSON.stringify(res),
+                //     success: function (res) {
+                //         if (res.confirm) {
+                //             console.log('用户点击确定')
+                //         } else if (res.cancel) {
+                //             console.log('用户点击取消')
+                //         }
+                //     }
+                // })
             }
         })
     },
@@ -195,10 +218,11 @@ Page({
         })
     },
     navTabItemClick: function(e){
-        let data = e.currentTarget.dataset.data
-        if (data.id == this.data.currentID) return
-        console.log(JSON.stringify(data))
-        this.setData({ currentID: data.id })
+        let id = e.currentTarget.id, 
+            data = e.currentTarget.dataset.data
+
+        if (id == this.data.currentID) return
+        this.setData({ currentID: id })
         this.swichCategory(data.name == "精选" ? '' : data.name)
     },
     swichCategory: function (category){

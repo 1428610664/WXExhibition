@@ -21,12 +21,17 @@ Page({
         number: 0,
         numberActual: 0,
         maxNumber: 0,
+        orderId: null
     },
     onLoad: function (options) {
-        this.setData({ id: options.id})
+        if (options.orderId){
+            this.setData({ id: options.id, orderId: options.orderId })
+        }else{
+            this.setData({ id: options.id })
+        }
     },
     onReady: function () {
-        console.log(app.globalData.sessionId+"----app.globalData.openId--" + app.globalData.openId)
+        console.log("----app.globalData.openId--" + app.globalData.openId)
         if (app.globalData.activityData) {
             this.setData({
                 activityData: app.globalData.activityData,
@@ -52,6 +57,7 @@ Page({
                 this._formatData(true)
                 this.setData({ isVip: true})
             } else {
+                this.insetMembers()
                 this._formatData()
             }
         }, error => {
@@ -91,9 +97,11 @@ Page({
             memberId: app.globalData.memberId,
             memberPhone: this.data.userData.phone,
             activityId: this.data.id,
-            number: this.data.count
+            number: this.data.count,
+            id: this.data.orderId,
+            isVip: this.data.isVip ? "是" : "否"
         }
-        if (this.data.itemData.isNeedPay == 1) { // 付费
+        if (this.data.itemData.isNeedPay == 1 && this.data.total > 0) { // 付费
             // 非会员价总价
             requestParms.priceTotal = (this.data.count * this.data.itemData.nonMBPrice).toFixed(2)
             // 会员价总价
@@ -114,7 +122,7 @@ Page({
             wx.hideLoading()
             console.log("---报名中------"+JSON.stringify(res))
             if (res.success){
-                if (this.data.itemData.isNeedPay == 1) {
+                if (this.data.itemData.isNeedPay == 1 && this.data.total > 0) {
                     commomPay.payOrder(parseInt(this.data.total * 100), res.data.id)
                 }else{
                     wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=true'})
@@ -139,7 +147,23 @@ Page({
         total = total.toFixed(2)
         this.setData({ count: this.data.count + 1, total: total })
     },
-    onShareAppMessage: function () {
+    insetMembers: function(){
+        let parms = {
+            memberId: this.data.activityData.memberId,
+            phone: this.data.userData.phone,
+            name: this.data.userData.name,
+            sex: app.globalData.userInfo.gender == 1 ? "男" : app.globalData.userInfo.gender == 2 ? "女" : "未知",
+            email: this.data.userData.email,
+            openid: app.globalData.openId,
+            channel: 2,
+            level: 0
+        }
+        console.log("parms=========="+JSON.stringify(parms))
+        request.post(Api.vips, parms).then(res => {
+            console.log("Api.vips--------"+JSON.stringify(res))
+        }, error => {
 
-    }
+        })
+
+    } 
 })

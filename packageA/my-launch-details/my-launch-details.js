@@ -35,6 +35,9 @@ Page({
     _formatData: function (data) {
         let self = this
         let d = {
+            number: data.number,
+            numberActual: data.numberActual,
+            orderNumber: data.orderNumber,
             name: data.name,
             address: data.address,
             beginTime: data.beginTime ? utils.formatTime(data.beginTime.time) : "~",
@@ -48,6 +51,7 @@ Page({
         WxParse.wxParse('article', 'html', data.content, self, 5);
         this.setData({ 
             imgUrl: Api.locationUrl + data.posterUrl, 
+            signUrl: data.signUrl ? Api.locationUrl + data.signUrl : "/images/loading.png",
             itemData: d, 
             status: data.status,
             statusEnd: data.status == 3 || data.status == 99 ? true : false
@@ -55,6 +59,6 @@ Page({
     },
     toPage: function (e) {
         var path = e.currentTarget.dataset.path;
-        wx.navigateTo({ url: path + "?id=" + this.data.id })
+        wx.navigateTo({ url: path + "?id=" + this.data.id + "&signUrl=" + this.data.signUrl})
     }
 })

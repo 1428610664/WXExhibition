@@ -4,24 +4,24 @@
             <text class='fz14 c2'>{{item.name}}</text>
         </view>
         <view class='category-list-wrapper clear'>
-            <block wx:key="id" wx:for="{{item.childer}}" wx:for-item="child">
+            <block wx:key="i" wx:for="{{item.childer}}" wx:for-item="child">
             <view class='category-item'>
                 {{child.name}}
-                <image src='/images/delete1.png' style='display: {{isEdit}};'></image>
+                <image src='/images/delete1.png'  data-index="{{index}}" data-item="{{child}}" catchtap='existEvent' wx:if="{{index > 0}}" style='display: {{isEdit}};'></image>
             </view>
             </block>
         </view>
     </block>
-    <block wx:key="i" wx:for="{{listData}}">
+    <block wx:key="i" wx:for="{{listData}}" wx:for-index="itemIndex" >
         <view class='categoryHead'>
             <image lazy-load="true" src='{{item.images}}'></image>
             <text class='fz14 c2'>{{item.name}}</text>
         </view>
         <view class='category-list-wrapper clear'>
-            <block wx:key="id" wx:for="{{item.childer}}" wx:for-item="child">
+            <block wx:key="i" wx:for="{{item.childer}}" wx:for-item="child">
             <view class='category-item'>
                 {{child.name}}
-                <image src='/images/add1.png' style='display: {{isEdit}};'></image>
+                <image catchtap='categoryEvent' data-childerIndex="{{index}}" data-index="{{itemIndex}}" data-item="{{child}}" src='/images/add1.png' style='display: {{isEdit}};'></image>
             </view>
             </block>
         </view>

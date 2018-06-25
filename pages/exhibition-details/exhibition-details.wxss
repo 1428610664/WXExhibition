@@ -1,15 +1,16 @@
 @import "/wxParse/wxParse.wxss";
 
 .big-img{height: 220px;width: 100%;}
-.header-wrapper{padding: 0 12px;border-bottom:5px solid #f6f6f6;}
+.header-wrapper{padding: 0 12px;}
 .title-info{padding: 8px 0;}
+.title-info .tools{margin-top: 8px;}
 .title-info .tools > text{margin-right: 6px;}
 .cell-wrapper{padding: 24rpx 0;border-top: 1px solid #f6f6f6;display: flex;}
 .cell-wrapper .icon-wrapper{align-items:center;justify-content:center;display:flex;}
 .cell-wrapper image{width: 16px;height: 16px;vertical-align: middle;margin: -2px 10px 0 0;}
 .cell-wrapper text{flex: 1;}
 
-.cell-title{position: relative;line-height: 42px;padding-left: 16px;border-bottom:1px solid #f6f6f6;}
+.cell-title{position: relative;line-height: 42px;padding-left: 16px;border-bottom:1px solid #f6f6f6;border-top:5px solid #f6f6f6;}
 .cell-title > text::before{content: ""; display: block;width: 2px; height: 20px; background: #118fff; position: absolute; top: 11px; left: 0;}
 
 .cell-title .more{ width: 16px; height: 16px;position: absolute; top: 13px; right: 5px;}
