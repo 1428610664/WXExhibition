@@ -88,6 +88,13 @@ const isEmpty = val => {
     return false;
 }
 
+const getAddress = (v, v1) => {
+    if (v && v1 && v.length > 0 && v1.length > 0){
+        return v + v1
+    }
+    return ''
+}
+
 module.exports = {
     formatTime: formatTime,
     format: format,
@@ -96,5 +103,6 @@ module.exports = {
     formatLabel: formatLabel,
     isPhone: isPhone,
     isEmail: isEmail,
-    isEmpty: isEmpty
+    isEmpty: isEmpty,
+    getAddress: getAddress
 }

@@ -45,7 +45,7 @@ Page({
                 id: v.activityId,
                 name: v.activityName,
                 time: utils.format(v.createTime.time),
-                address: v.address,
+                address: utils.getAddress(v.city1, v.city2),
                 status: v.status,
                 statusTxt: utils.formatStatus(parseInt(v.status)),
                 imgUrl: Api.locationUrl + v.posterUrl

@@ -11,6 +11,8 @@ Page({
         userInfo: null,
 
         id: '',
+        memberId: '',
+        belongToMember: '',
         status: '',
         imgUrl: '../../images/loading.png',
         likeImg: '/images/like.png',
@@ -22,30 +24,39 @@ Page({
         wx.showLoading({ title: '加载中' })
         console.log(JSON.stringify(options))
         this.requestData(options.id)
-        this.setData({ id: options.id })
+        this.setData({ id: options.id, memberId: options.memberId ? options.memberId : ''})
         this.requestKeeps()
-
-        if (options.memberId){
-            console.log('转发进来-----------memberId==' + options.memberId)
-            /*wx.showModal({
-                title: '转发进来',
-                content: 'memberId==' + options.memberId,
-            })*/
-        }
+        
     },
     onReady: function () {
         if (app.globalData.userInfo) {
             this.setData({ userInfo: app.globalData.userInfo })
+
+            if (this.data.id) {
+                this.setData({ belongToMember: this.data.memberId })
+                // 提交浏览记录
+                this.accessLog("活动详情")
+            } else {
+                // 提交浏览记录
+                this.accessLog("活动详情")
+            }
         } else {
             this.openLoginPopup()
         }
     },
+    accessLog: function(name){
+        auth.accessLog({
+            belongToMember: this.data.belongToMember,
+            belongToObject: this.data.id,
+            accessUrlDesc: name,
+        }, app)
+    },
     requestData: function (id) {
-        request.get(Api.getHomeList, { id: id }).then((res) => {
+        request.get(Api.queryActivity(id), {}).then((res) => {
             wx.hideLoading()
-            console.log("==========" + JSON.stringify(res.data.rows[0]))
-            this.setData({ activityData: res.data.rows[0]})
-            this._formatData(res.data.rows[0])
+            console.log("==========" + JSON.stringify(res.data))
+            this.setData({ activityData: res.data.data})
+            this._formatData(res.data)
         }, (error) => {
             wx.hideLoading()
             console.log("----22---" + JSON.stringify(error))
@@ -54,17 +65,22 @@ Page({
     errorFunction: function () {
         this.setData({ imgUrl: "../../images/loading.png" })
     },
-    _formatData: function (data) {
+    _formatData: function (v) {
+        let data =  v.data
         let d = {
             name: data.name,
-            address: data.address,
-            beginTime: data.beginTime ? utils.formatTime(data.beginTime.time) : "~",
-            endTime: data.endTime ? utils.formatTime(data.endTime.time) : "~",
+            address: data.city1 + data.city2 + data.city3 + data.address,
+            applyBeginTime: data.applyBeginTime ? utils.formatDate(data.applyBeginTime.time, "yyyy-MM-dd hh:mm") : "~",
+            applyEndTime: data.applyEndTime ? utils.formatDate(data.applyEndTime.time, "yyyy-MM-dd hh:mm") : "~",
+            beginTime: data.beginTime ? utils.formatDate(data.beginTime.time, "yyyy-MM-dd hh:mm") : "~",
+            endTime: data.endTime ? utils.formatDate(data.endTime.time, "yyyy-MM-dd hh:mm") : "~",
+            keepNumber: v.keepNumber,
+            accessLogNumber: v.accessLogNumber,
             content: data.content,
             isNeedPay: data.isNeedPay,
             mbPrice: data.mbPrice,
             nonMBPrice: data.nonMBPrice,
-            actualStatus: data.number - data.numberActual > 0,
+            actualStatus: data.number == 0 ? true : data.number - data.numberActual > 0,
             timeStatus: data.applyEndTime.time > new Date().getTime(),
             agenda: data.agenda,
             remark: data.remark
@@ -112,6 +128,9 @@ Page({
         wx.switchTab({ url: "/pages/index/index" })
     },
     onShareAppMessage: function () {
+        // 提交浏览记录
+        this.accessLog("活动转发")
+
         return {
             title: this.data.itemData.name,
             path: "pages/exhibition-details/exhibition-details?id=" + this.data.id + "&memberId=" + app.globalData.memberId
@@ -119,6 +138,8 @@ Page({
     },
     enrollEvent: function (e) {
         app.globalData.activityData = this.data.activityData
+        // 提交浏览记录
+        this.accessLog("活动报名")
 
         if (app.globalData.userData && app.globalData.userData.phone){
             wx.navigateTo({ url: '/packageA/pay/pay?id=' + this.data.id })
@@ -136,6 +157,14 @@ Page({
             auth.updateMembers(userInfo, app)
             setTimeout(function () {
                 self.setData({ isLoginPopup: false })
+                if (this.data.id) {
+                    this.setData({ belongToMember: this.data.memberId })
+                    // 提交浏览记录
+                    this.accessLog("活动详情")
+                } else {
+                    // 提交浏览记录
+                    this.accessLog("活动详情")
+                }
             }, 1200)
         }
     },

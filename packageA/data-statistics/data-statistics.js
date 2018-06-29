@@ -1,70 +1,84 @@
-var wxCharts = require('../../utils/wxcharts-min.js');
-var lineChart = null, lineChart1 = null;
-var chartArr = {
+var Api = require('../../utils/Api.js');
+var request = require('../../utils/request.js')
+var utils = require('../../utils/util.js')
+let wxCharts = require('../../utils/wxcharts-min.js')
+
+
+let chartArr = {
     lineChart: null,
     lineChart1: null
 }
-var simulationData = {
-    "categories": ["2016-6-1", "2016-6-2", "2016-6-3", "2016-6-4", "2016-6-5", "2016-6-6", "2016-6-7", "2016-6-8", "2016-6-9", "2016-6-10"],
-    "data": [123, 145, 168, 67, 325, 234, 178, 134, 356, 190]
+let simulationData = {
+    "categories": [0],
+    "data": [0],
+    "categories1": ["2016-6-1"],
+    "data1": [32],
+    "data2": [12, 209, 34, 23, 45, 278, 321, 32, 345, 128]
 }
 
 Page({
     data: {
-
+        requestParms: {}
     },
-    /*touchHandler: function (e) {
-        var id = e.target.id;
-        chartArr[id].scrollStart(e);
+    touchHandler: function (e) {
+        let id = e.target.id
+        chartArr[id].scrollStart(e)
     },
     moveHandler: function (e) {
-        var id = e.target.id;
-        chartArr[id].scroll(e);
+        let id = e.target.id
+        chartArr[id].scroll(e)
     },
     touchEndHandler: function (e) {
-        var id = e.target.id;
-        chartArr[id].scrollEnd(e);
+        let id = e.target.id
+        chartArr[id].scrollEnd(e)
         chartArr[id].showToolTip(e, {
             format: function (item, category) {
                 return category + ' ' + item.name + ':' + item.data
             }
-        });
-    },*/
-    touchHandler: function (e) {
-        lineChart.scrollStart(e);
+        })
     },
-    moveHandler: function (e) {
-        lineChart.scroll(e);
-    },
-    touchEndHandler: function (e) {
-        lineChart.scrollEnd(e);
-        lineChart.showToolTip(e, {
-            format: function (item, category) {
-                return category + ' ' + item.name + ':' + item.data
+    onLoad: function (options) {
+        console.log(JSON.stringify(options))
+        this.setData({
+            requestParms: {
+                activityId: options.id,
+                bTime: utils.formatDate(options.createTime * 1, "yyyy-MM-dd hh:mm:ss"),
+                eTime: utils.formatDate(options.endTime * 1, "yyyy-MM-dd hh:mm:ss"),
+                ctType: "sum"
             }
-        });
+        })
+        this.initLineChart()
+        this.initLineChart1()
     },
-    touchHandler1: function (e) {
-        lineChart1.scrollStart(e);
+    onReady: function () {
+        this.requestData()
     },
-    moveHandler1: function (e) {
-        lineChart1.scroll(e);
-    },
-    touchEndHandler1: function (e) {
-        lineChart1.scrollEnd(e);
-        lineChart1.showToolTip(e, {
-            format: function (item, category) {
-                return category + ' ' + item.name + ':' + item.data
-            }
-        });
-    },
-    onLoad: function (e) {
-        this.initLineChart();
-        this.initLineChart1();
+    requestData: function(){
+        let orderParms = Object.assign(this.data.requestParms, { ctKey: "price_actual"}) 
+        request.get(Api.orderStatistics, orderParms)
+            .then( res => {
+                console.log(JSON.stringify(res))
+                if (res.success && res.data.price_actual.length > 0){
+                    let data = this._parseData(res.data.price_actual)
+                    this.updateChart("lineChart1", "票款金额", data.value, data.categories)
+                }
+            }, error => {
+
+            })
+        request.get(Api.browseStatistics, this.data.requestParms)
+            .then(res => {
+                console.log(JSON.stringify(res))
+                if (res.success && res.data.length > 0) {
+                    let data = this._parseData(res.data)
+                    this.updateChart("lineChart", "浏览数", data.value, data.categories)
+                }
+            }, error => {
+
+            })
     },
     initLineChart: function(){
 
-        lineChart = new wxCharts({
+        chartArr.lineChart = new wxCharts({
             canvasId: 'lineCanvas',
             type: 'line',
             categories: simulationData.categories,
@@ -78,7 +92,6 @@ Page({
             },
             yAxis: {
                 gridColor: "#f1f1f1",
-                //title: '活动浏览数',
                 min: 0
             },
             width: wx.getSystemInfoSync().windowWidth | 320,
@@ -89,10 +102,10 @@ Page({
             extra: {
                 lineStyle: 'curve'
             }
-        });
+        })
     },
     initLineChart1: function(){
-        lineChart1 = new wxCharts({
+        chartArr.lineChart1 = new wxCharts({
             canvasId: 'lineCanvas1',
             type: 'line',
             categories: simulationData.categories,
@@ -109,7 +122,6 @@ Page({
             },
             yAxis: {
                 gridColor: "#f1f1f1",
-                //title: '活动浏览数',
                 min: 0,
             },
             width: wx.getSystemInfoSync().windowWidth | 320,
@@ -120,6 +132,26 @@ Page({
             extra: {
                 lineStyle: 'curve'
             }
-        });
+        })
+    },
+    updateChart: function (chart, name, data, categories){
+        chartArr[chart].updateData({
+            categories: categories,
+            series: [{
+                name: name,
+                data: data,
+                format: function (val, name) {
+                    return val + (chart == "lineChart1" ? "元" : '')
+                }
+            }]
+        })
+    },
+    _parseData: function(data){
+        let value = [], timer = []
+        data.forEach((v, i) => {
+            value.push(v.ct)
+            timer.push(v.time)
+        })
+        return { value: value, categories: timer}
     }
 });

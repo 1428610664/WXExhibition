@@ -25,6 +25,7 @@ module.exports = {
                     nickName: member.nickName,
                     name: member.name
                 }
+                wx.setStorageSync("memberId", member.id)
                 wx.setStorageSync("sessionId", "JSESSIONID=" + res.data.sessionId)
                 if (that.globalData.userInfo)this.updateMembers(that.globalData.userInfo, that)
             }
@@ -43,6 +44,37 @@ module.exports = {
         request.post(Api.members, parms)
             .then(res => {
                 console.log("updateMembers=="+JSON.stringify(res))
+            }, error => {
+
+            })
+    },
+    // 访问记录提交
+    accessLog: function (access, app){
+        let pages = getCurrentPages(), url = pages[pages.length - 1].route
+        let systemInfo = app.globalData.systemInfo, userInfo = app.globalData.userInfo
+        let parms = {
+            accessUrl: url,
+            belongToMember: access.belongToMember,
+            belongToObject: access.belongToObject,
+            accessUrlDesc: access.accessUrlDesc,
+            visitorId: app.globalData.memberId
+        }
+        if (systemInfo){
+            parms = Object.assign({}, parms, {
+                visitorClientSys: systemInfo.system,
+                visitorClientModel: systemInfo.model,
+            })
+        }
+        if (userInfo){
+            parms = Object.assign({}, parms, {
+                visitorProvince: userInfo.province,
+                visitorCity: userInfo.city,
+                visitorSex: userInfo.gender
+            })
+        }
+        request.post(Api.accessLog, parms)
+            .then( res => {
+                console.log("accessLog------"+JSON.stringify(res))
             }, error => {
 
             })

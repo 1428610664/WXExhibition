@@ -6,6 +6,7 @@ App({
     onLaunch: function () {
         let that = this
         this.globalData.userData = wx.getStorageSync("userData")
+        this.globalData.memberId = wx.getStorageSync("memberId")
         wx.getUserInfo({
             success: function (res) {
                 that.globalData.userInfo = res.userInfo
@@ -26,6 +27,7 @@ App({
         wx.getSystemInfo({
             success: function(data){
                 console.log("---getSystemInfo-------"+JSON.stringify(data))
+                that.globalData.systemInfo = data
             }
         })
         //auth.loginWechat("", this)
@@ -51,6 +53,7 @@ App({
         memberId: '',
         session_key: '',
         openId: '',
+        systemInfo: null,   // 系统信息
         member: null,       // 登录返回数据
         userData: null,     // 用户名、手机、邮箱、昵称数据
         userInfo: null,     // 用户授权数据

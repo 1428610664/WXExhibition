@@ -4,6 +4,7 @@ module.exports = {
     ajax(url, parma, type) {
         let data = Object.assign({}, commonParams, parma),
             sessionId = wx.getStorageSync("sessionId")
+        console.log(url + "-------------------" + JSON.stringify(parma))
         return new Promise((resolve, reject) => {
             wx.request({
                 method: type ? type : "POST",

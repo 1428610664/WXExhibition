@@ -83,9 +83,9 @@ Page({
         console.log(JSON.stringify(data))
         data.forEach((v, i) => {
             list.push({
-                memberName: v.memberName,
+                memberName: v.memberName ? v.memberName : v.memberNickName,
                 memberImg: v.memberImg,
-                signTime: v.signTime ? utils.formatDate(v.signTime.time, "yyyy-MM-dd hh-mm:ss") : "~",
+                signTime: v.signTime ? utils.formatDate(v.signTime.time, "yyyy-MM-dd hh:mm:ss") : "",
                 status: v.status == 1 ? true : false
             })
         })

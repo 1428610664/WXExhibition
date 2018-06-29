@@ -11,13 +11,17 @@
         <view class='title-info'>
             <text class='fz14 c2 name'>{{itemData.name}}</text>
             <view class='tools'>
-                <text class='fz12 c3'>浏览 9999</text>
-                <text class='fz12 c3'>收藏 9999</text>
+                <text class='fz12 c3'>浏览 {{itemData.accessLogNumber}}</text>
+                <text class='fz12 c3'>收藏 {{itemData.keepNumber}}</text>
             </view>
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <view class='icon-wrapper'><image src='/images/time.png'></image></view>
-            <text>{{itemData.beginTime}} - {{itemData.endTime}}</text>
+            <text>报名时间:{{itemData.applyBeginTime}} - {{itemData.applyEndTime}}</text>
+        </view>
+        <view class='fz13 c2 cell-wrapper'>
+            <view class='icon-wrapper'><image src='/images/time1.png'></image></view>
+            <text>活动时间: {{itemData.beginTime}} - {{itemData.endTime}}</text>
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <view class='icon-wrapper'><image src='/images/address1.png'></image></view>
@@ -74,7 +78,7 @@
                 <image src='{{likeImg}}'></image>
                 <text>收藏</text>
             </view>
-            <view bindtap='shareExhubition'>
+            <view>
                 <image src='/images/share.png'></image>
                 <text>分享</text>
                 <button open-type="share" class='share-button'></button>
@@ -86,6 +90,7 @@
         <view wx:else class='enroll-btn b2 c fz15'>
             <text wx:if="{{status == -1 || status == 0}}">未开始</text>
             <text wx:if="{{status == 2}}">进行中</text>
+            <text wx:if="{{status == 3}}">已取消</text>
             <text wx:if="{{status == 99}}">已结束</text>
         </view>
     </view>

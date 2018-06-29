@@ -3,6 +3,9 @@ var locationUrl = "https://pmp.coreware.cn/gather";
 module.exports = {
     locationUrl: locationUrl,
     getHomeList: locationUrl + "/activitys",                // 活动
+    queryActivity(id){                                      // 查询活动
+        return locationUrl + "/activitys/info/" + id
+    },
     loginWechat: locationUrl + '/members/loginWechat',      // 登录
     orders: locationUrl + "/orders",                        // 订单
     keeps: locationUrl + "/keeps",                          // 收藏
@@ -19,4 +22,8 @@ module.exports = {
     orderTicket: locationUrl + "/ticket/orderTicket",       // 票券详情
     ticket: locationUrl + "/ticket",                        // 票券信息
     ticketSign: locationUrl + "/ticket/sign",               // 签到
+    accessLog: locationUrl + "/accessLog",                  // 访问记录
+    orderStatistics: locationUrl + "/orders/ctByFormat",    // 订单统计
+    browseStatistics: locationUrl + "/accessLog/ctByFormat",// 浏览统计
+    config: locationUrl + "/activitys/config",              // 分类
 }

@@ -13,7 +13,7 @@ module.exports = {
                 if (res.success){
                     this.sign(res.data.prepay_id)
                 }else{
-                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false'})
+                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false&status=0'})
                 }
             }, error => {
 
@@ -27,7 +27,7 @@ module.exports = {
                 if (res.success){
                     this.requestPayment(res.data)
                 } else {
-                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false'})
+                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false&status=0'})
                 }
             }, error => {
 
@@ -45,14 +45,14 @@ module.exports = {
                 console.log("-------支付---------"+JSON.stringify(res))
                 if (res.errMsg == "requestPayment:ok"){
                     // 付款成功 
-                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=true'})
+                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=true&status=0'})
                 }else{
-                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false'})
+                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false&status=0'})
                 }
             },
             'fail': function (res) {
                 console.log(res)
-                wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false' })
+                wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false&status=0' })
             }
         })
     }

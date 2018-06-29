@@ -128,7 +128,7 @@ Page({
                 id: v.id,
                 name: v.name,
                 time: utils.format(v.createTime.time),
-                address: v.address,
+                address: utils.getAddress(v.city1, v.city2),
                 imgUrl: Api.locationUrl + v.posterUrl,
                 label: utils.formatLabel(v.label),
                 orderStatus: v.isNeedPay == "1" ? "￥" +v.nonMBPrice: "免费",
@@ -179,21 +179,14 @@ Page({
                     .then(res => {
                         console.log(JSON.stringify(res))
                         wx.hideLoading()
-                        wx.showToast({ icon: "none", title: res.desc })
+                        wx.showModal({
+                            title: '扫码结果',
+                            content: res.desc,
+                            showCancel: false
+                        })
                     }, error => {
                         wx.hideLoading()
                     })
-                // wx.showModal({
-                //     title: '扫码',
-                //     content: JSON.stringify(res),
-                //     success: function (res) {
-                //         if (res.confirm) {
-                //             console.log('用户点击确定')
-                //         } else if (res.cancel) {
-                //             console.log('用户点击取消')
-                //         }
-                //     }
-                // })
             }
         })
     },

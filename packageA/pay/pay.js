@@ -2,7 +2,7 @@ var Api = require('../../utils/Api.js');
 var request = require('../../utils/request.js')
 var utils = require('../../utils/util.js')
 var commomPay = require('../utils/commomPay.js')
-
+var auth = require('../../utils/auth.js')
 const app = getApp()
 
 Page({
@@ -29,6 +29,13 @@ Page({
         }else{
             this.setData({ id: options.id })
         }
+    },
+    accessLog: function () {
+        auth.accessLog({
+            belongToMember: '',
+            belongToObject: this.data.id,
+            accessUrlDesc: '活动缴费',
+        }, app)
     },
     onReady: function () {
         console.log("----app.globalData.openId--" + app.globalData.openId)
@@ -68,7 +75,7 @@ Page({
         let data = this.data.activityData
         let d = {
             name: data.name,
-            address: data.address,
+            address: utils.getAddress(data.city1, data.city2),
             beginTime: data.beginTime ? utils.formatTime(data.beginTime.time) : "~",
             endTime: data.endTime ? utils.formatTime(data.endTime.time) : "~",
             beginTime1: data.beginTime ? utils.formatDate(data.beginTime.time, "MM/dd") : "~",
@@ -87,12 +94,15 @@ Page({
             status: data.status,
             number: data.number,
             numberActual: data.numberActual,
-            maxNumber: data.number - data.numberActual,
+            maxNumber: data.number == 0 ? 30 : data.number - data.numberActual,
             price: mark ? data.mbPrice : data.nonMBPrice,
             total: this.data.count * (mark ? data.mbPrice : data.nonMBPrice)
         })
     },
     payEvent: function () {
+        // 提交浏览记录
+        this.accessLog()
+
         let requestParms = {
             memberId: app.globalData.memberId,
             memberPhone: this.data.userData.phone,
@@ -111,7 +121,7 @@ Page({
             requestParms.status = 0
         } else { 
             // 免费
-            requestParms.priceTotal = 0
+            requestParms.priceTotal = this.data.itemData.isNeedPay == 1 ? (this.data.count * this.data.itemData.nonMBPrice).toFixed(2) : 0
             requestParms.priceDiscount = 0
             requestParms.priceActual = 0
             requestParms.status = 1
@@ -125,13 +135,16 @@ Page({
                 if (this.data.itemData.isNeedPay == 1 && this.data.total > 0) {
                     commomPay.payOrder(parseInt(this.data.total * 100), res.data.id)
                 }else{
-                    wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=true'})
+                    wx.redirectTo({ 
+                        url: '/packageA/pay-callback/pay-callback?success=true&status=' + requestParms.status})
                 }
             }else{
-                wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false'})
+                wx.redirectTo({
+                    url: '/packageA/pay-callback/pay-callback?success=false&status=' + requestParms.status + "&msg=" + res.desc})
             }
         }, error => {
-            wx.redirectTo({ url: '/packageA/pay-callback/pay-callback?success=false'})
+            wx.redirectTo({
+                url: '/packageA/pay-callback/pay-callback?success=false&status=' + requestParms.status})
             wx.hideLoading()
         })
     },

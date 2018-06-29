@@ -16,7 +16,7 @@
     <view class='cell b clear'>
         <text class='fz13 fl'>我的票券</text>
         <view class='fr' data-id="0" bindtap="voucherEvent">
-            <text class='fz10'>全部</text>
+            <text class='fz12'>全部</text>
             <image src='/images/more.png' class='more-img'></image>
         </view>
     </view>

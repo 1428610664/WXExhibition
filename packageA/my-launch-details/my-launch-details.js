@@ -10,6 +10,7 @@ Page({
         status: '',
         statusEnd: false,
         imgUrl: '/images/loading.png',
+        requestData: null,
         itemData: null
     },
     onLoad: function (options) {
@@ -21,10 +22,10 @@ Page({
 
     },
     requestData: function (id) {
-        request.get(Api.getHomeList, { id: id }).then((res) => {
+        request.get(Api.queryActivity(id), {}).then((res) => {
             wx.hideLoading()
-            console.log("==========" + JSON.stringify(res.data.rows[0]))
-            this._formatData(res.data.rows[0])
+            console.log("==========" + JSON.stringify(res.data))
+            this._formatData(res.data)
         }, (error) => {
             wx.hideLoading()
         })
@@ -32,16 +33,18 @@ Page({
     errorFunction: function () {
         this.setData({ imgUrl: "/images/loading.png" })
     },
-    _formatData: function (data) {
-        let self = this
+    _formatData: function (v) {
+        let self = this, data = v.data 
         let d = {
-            number: data.number,
+            number: data.number == 0 ? '不限' : data.number,
             numberActual: data.numberActual,
-            orderNumber: data.orderNumber,
+            signNumber: v.signNumber,
+            keepNumber: v.keepNumber,
+            accessLogNumber: v.accessLogNumber,
             name: data.name,
-            address: data.address,
-            beginTime: data.beginTime ? utils.formatTime(data.beginTime.time) : "~",
-            endTime: data.endTime ? utils.formatTime(data.endTime.time) : "~",
+            address: data.city1 + data.city2 + data.city3 + data.address,
+            beginTime: data.beginTime ? utils.formatDate(data.beginTime.time, "yyyy-MM-dd hh:mm") : "~",
+            endTime: data.endTime ? utils.formatDate(data.endTime.time, "yyyy-MM-dd hh:mm") : "~",
             content: data.content,
             isNeedPay: data.isNeedPay,
             mbPrice: data.mbPrice,
@@ -54,11 +57,18 @@ Page({
             signUrl: data.signUrl ? Api.locationUrl + data.signUrl : "/images/loading.png",
             itemData: d, 
             status: data.status,
+            requestData: data,
             statusEnd: data.status == 3 || data.status == 99 ? true : false
         })
     },
     toPage: function (e) {
         var path = e.currentTarget.dataset.path;
-        wx.navigateTo({ url: path + "?id=" + this.data.id + "&signUrl=" + this.data.signUrl})
+        wx.navigateTo({ 
+            url: path + 
+            "?id=" + this.data.id + 
+            "&signUrl=" + this.data.signUrl + 
+            "&endTime=" + this.data.requestData.endTime.time + 
+            "&createTime=" + this.data.requestData.createTime.time
+        })
     }
 })

@@ -99,7 +99,7 @@ Page({
                 id: v.orderId,
                 name: v.name,
                 time: utils.format(v.createTime.time),
-                address: v.address,
+                address: utils.getAddress(v.city1, v.city2),
                 imgUrl: Api.locationUrl + v.posterUrl,
                 label: utils.formatLabel(v.label),
                 orderStatus: status.orderStatus,
