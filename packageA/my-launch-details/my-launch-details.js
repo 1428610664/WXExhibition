@@ -61,6 +61,9 @@ Page({
             statusEnd: data.status == 3 || data.status == 99 ? true : false
         })
     },
+    toDeltail: function(e){
+        wx.navigateTo({ url: "/pages/webpage/webpage?id=" + this.data.id })
+    },
     toPage: function (e) {
         var path = e.currentTarget.dataset.path;
         wx.navigateTo({ 

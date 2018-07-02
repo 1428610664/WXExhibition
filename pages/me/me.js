@@ -3,16 +3,17 @@ var app = getApp();
 
 Page({
   data: {
+      role: 0,
       isLoginPopup: false,
       userInfo: null,
       navList: [{ name: '待参加', id: 1, images: "/images/coupons.png" }, { name: '待支付', id: 2, images: "/images/payment.png" }, { name: '已结束', id: 3, images: "/images/examine.png" }],
   },
   onLoad: function (options) {
-      
+      this.setData({ role: app.globalData.role})
   },
   onReady: function () {
       if (app.globalData.userInfo) {
-          this.setData({ userInfo: app.globalData.userInfo })
+          this.setData({userInfo: app.globalData.userInfo })
       } else {
           this.openLoginPopup()
       }

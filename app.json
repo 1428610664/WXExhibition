@@ -1,12 +1,13 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/category/category",
         "pages/me/me",
         "pages/search/search",
-        "pages/category/category",
         "pages/category-details/category-details",
         "pages/exhibition-details/exhibition-details",
-        "pages/search-details/search-details"
+        "pages/search-details/search-details",
+        "pages/webpage/webpage"
     ],
     "subPackages": [
         {

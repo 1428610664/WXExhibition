@@ -32,7 +32,11 @@ Page({
         request.post(Api.ticketSign, { activityId: this.data.id, codeNumber: code, signType: signType})
             .then(res => {
                 wx.hideLoading()
-                wx.showToast({ icon: "none", title: res.desc })
+                wx.showModal({
+                    title: '扫码结果',
+                    content: res.desc,
+                    showCancel: false
+                })
             }, error => {
                 wx.hideLoading()
             })

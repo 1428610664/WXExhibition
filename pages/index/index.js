@@ -31,10 +31,7 @@ Page({
     },
     //生命周期函数-监听页面初次渲染完毕
     onReady: function () {
-        let existData = wx.getStorageSync("navTabList")
-        if (existData) app.globalData.navTabList = existData
-        console.log("-------------" + existData)
-        this.setData({ navTabList: existData ? existData : app.globalData.navTabList})
+        this.requestCategory()
         if (app.globalData.userInfo) {
             this.setData({ userInfo: app.globalData.userInfo })
         } else {
@@ -48,6 +45,7 @@ Page({
         }
         let flag = this.watchCategory()
         if(flag){
+            console.log("999999999999===" + app.globalData.navTabList)
             this.setData({ currentID: "nav0", navTabList: app.globalData.navTabList})
             this.swichCategory('')
         }
@@ -58,7 +56,7 @@ Page({
             mark = false
         if (gNavTabList.length != navTabList.length) return true
         navTabList.forEach((v, i) => {
-            if (v.name != gNavTabList[i].name) mark = true
+            if (v.title != gNavTabList[i].title) mark = true
         })
         return mark
     },
@@ -78,6 +76,22 @@ Page({
                 // 转发失败
             }
         }
+    },
+    requestCategory: function(){
+        request.get(Api.homeCategory, { useWx: 1, type: "ACTIVITY"})
+            .then(res => {
+                if (res.success){
+                    let row = res.data.rows, category = [{ title: "精选" }]
+                    row.forEach(v => {
+                        category.push({ title: v.name, id: v.id})
+                    })
+                    let existData = wx.getStorageSync("tabList")
+                    app.globalData.navTabList = existData ? existData : category
+                    this.setData({ 
+                        navTabList: existData ? existData : app.globalData.navTabList
+                    })
+                }
+            })
     },
     requestChoice: function(){
         request.get(Api.getHomeList, this.data.choiceParms)
@@ -216,7 +230,7 @@ Page({
 
         if (id == this.data.currentID) return
         this.setData({ currentID: id })
-        this.swichCategory(data.name == "精选" ? '' : data.name)
+        this.swichCategory(data.title == "精选" ? '' : data.title)
     },
     swichCategory: function (category){
         var requestParms = this.data.requestParms,

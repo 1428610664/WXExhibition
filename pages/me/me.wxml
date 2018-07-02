@@ -32,7 +32,7 @@
     <view class='c2'>
         <view class='cell b clear' data-path="/packageA/my-launch/my-launch" bindtap="toPage">
             <image src='/images/launch.png' class='fl cell-img'></image>
-            <text class='fz13 fl'>我发起的</text>
+            <text class='fz13 fl'>{{role == 1 ? '我负责的': '我发起的'}}</text>
             <view class='fr'>
                 <text class='fz10'></text>
                 <image src='/images/more.png' class='more-img'></image>

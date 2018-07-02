@@ -5,11 +5,11 @@
 <template is="login-popup" data="{{show: isLoginPopup, userInfo: userInfo}}"></template>
 <!-- search -->
 <view class='search-wrapper b'>
-    <view class='address-view' bindtap="toCity">
+    <view class='address-view' bindtap="toPage" data-path="/packageA/city/city">
         <image class='address-img' src='/images/address.png'></image>
         <text class='address'> 深圳</text>
     </view>
-    <view class='search-view' bindtap="searchClick">
+    <view class='search-view'  bindtap="toPage" data-path="../search/search">
         <image class='search-img' src='/images/search.png'></image>
         <text>搜索精彩活动</text>
     </view>
@@ -17,19 +17,19 @@
 <!-- search -->
 
 <view class="top-tab">
-  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-idx="{{idx}}" bindtap="switchTab">
-    {{item}}
+  <view class="top-tab-item {{currentTopItem==idx ? 'active' : ''}}" wx:for="{{topTabItems}}" wx:for-index="idx" wx:key="i" data-data="{{item}}" data-idx="{{idx}}" bindtap="switchTab">
+    {{item.title}}
   </view>
 </view>
 
 <view class='tab-wrapper c2'>
     <block wx:key="i" wx:for="{{sortListTitle}}">
-        <view class='tab-item' data-id='{{index}}' bindtap="tabItemClick">{{item.name}}<image src='/images/more2.png'></image></view>
+        <view class='tab-item' data-id='{{index}}' bindtap="tabItemClick">{{item.title}}<image src='/images/more2.png'></image></view>
     </block>
 </view>
 <view class='select-wrapper' style='display:{{showMask}}'>
     <block wx:key="i" wx:for="{{sortList}}" >
-        <view class='select-item' data-data="{{item}}" bindtap="sortClick">{{item.name}}</view>
+        <view class='select-item' data-data="{{item}}" bindtap="sortClick">{{item.title}}</view>
     </block>
 </view>
 <view class='select-mask' bindtap="maskClick" style='display:{{showMask}}'></view>

@@ -124,6 +124,9 @@ Page({
             }, error => {
             })
     },
+    toDeltail: function(e){
+        wx.navigateTo({ url: "/pages/webpage/webpage?id=" + this.data.id })
+    },
     toHome: function (e) {
         wx.switchTab({ url: "/pages/index/index" })
     },

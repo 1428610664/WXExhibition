@@ -9,8 +9,6 @@
                 <view>
                     <image class='icon' src='/images/address1.png'></image>
                     <text class='fz12 c3 m-r5'>{{itemData.address}}</text>
-                    <image class='icon' src='/images/eye.png'></image>
-                    <text class='fz12 c3 '>213</text>
                 </view>
                 <view class='clear fz12 c3'>
                     <image class='icon' src='/images/time.png'></image>

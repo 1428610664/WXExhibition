@@ -21,7 +21,7 @@
 <view class='nav-wrapper'>
     <scroll-view class='nav' scroll-x="true" scroll-into-view="{{currentID}}" scroll-with-animation="true">
         <block wx:key="id" wx:for="{{navTabList}}">
-            <text bindtap="navTabItemClick" id="{{'nav' + index}}" data-data="{{item}}" class="fz13 nav-item {{'nav'+index == currentID ? 'on c1' : ''}}">{{item.name}}</text>
+            <text bindtap="navTabItemClick" id="{{'nav' + index}}" data-data="{{item}}" class="fz13 nav-item {{'nav'+index == currentID ? 'on c1' : ''}}">{{item.title}}</text>
         </block>
     </scroll-view>
     <image src='/images/add.png' bindtap="addCategoryClick" class='add-img'></image>
@@ -53,7 +53,7 @@
     </view> -->
     <!-- 图标导航 -->
     <view class='quote-wrapper quote-wrapper1 clear' wx:if="{{recommendList.length > 0}}">
-        <text class='c2'>强力推荐</text>
+        <text class='c2'>热力推荐</text>
         <view class='fz12 c3 fr' catchtap='anotherBatchEvent'>
             <image src='../../images/refresh.png'></image>
             <text>换一换</text>

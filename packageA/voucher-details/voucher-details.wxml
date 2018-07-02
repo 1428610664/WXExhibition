@@ -20,7 +20,7 @@
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <view class='icon-wrapper'><image src='/images/time1.png'></image></view>
-            <text>会展时间: {{voucher.activityBeginTime}} - {{voucher.activityEndTime}}</text>
+            <text>活动时间: {{voucher.activityBeginTime}} - {{voucher.activityEndTime}}</text>
         </view>
         <view class='fz13 c2 cell-wrapper'>
             <view class='icon-wrapper'><image src='/images/address1.png'></image></view>

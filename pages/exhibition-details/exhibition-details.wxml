@@ -49,9 +49,9 @@
         <view class='entry-summary c3'>
             {{itemData.agenda}}
         </view>
-        <view class='cell-title'>
+        <view class='cell-title' catchtap='toDeltail' style='margin-bottom: 60px;'>
             <text class='c2 fz14'>活动详情</text>
-            <!-- <image class='more' src='/images/more.png'></image> -->
+            <image class='more' src='/images/more.png'></image> 
         </view>
         <!-- 
         <view class='content-desc'>
@@ -62,7 +62,7 @@
             <image src='/images/more1.png'></image>
         </view>
          -->
-        <view class='entry-summary c3' style='margin-bottom: 60px;'>
+        <view class='entry-summary c3' style='margin-bottom: 60px;display: none;'>
             <template is="wxParse" data="{{wxParseData: article.nodes}}" />
         </view>
         

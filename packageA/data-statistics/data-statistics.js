@@ -9,7 +9,7 @@ let chartArr = {
     lineChart1: null
 }
 let simulationData = {
-    "categories": [0],
+    "categories": [utils.formatDate(new Date(), "yyyy-MM-dd")],
     "data": [0],
     "categories1": ["2016-6-1"],
     "data1": [32],
@@ -45,7 +45,7 @@ Page({
                 bTime: utils.formatDate(options.createTime * 1, "yyyy-MM-dd hh:mm:ss"),
                 eTime: utils.formatDate(options.endTime * 1, "yyyy-MM-dd hh:mm:ss"),
                 ctType: "sum"
-            }
+            },
         })
         this.initLineChart()
         this.initLineChart1()

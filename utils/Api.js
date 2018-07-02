@@ -3,6 +3,7 @@ var locationUrl = "https://pmp.coreware.cn/gather";
 module.exports = {
     locationUrl: locationUrl,
     getHomeList: locationUrl + "/activitys",                // 活动
+    queryComprehensive: locationUrl + "/activitys/queryComprehensive",  // 活动综合查询
     queryActivity(id){                                      // 查询活动
         return locationUrl + "/activitys/info/" + id
     },
@@ -26,4 +27,6 @@ module.exports = {
     orderStatistics: locationUrl + "/orders/ctByFormat",    // 订单统计
     browseStatistics: locationUrl + "/accessLog/ctByFormat",// 浏览统计
     config: locationUrl + "/activitys/config",              // 分类
+    findTree: locationUrl + "/configs/findTree",            // 分类
+    homeCategory: locationUrl + "/configs/queryList",       // 首页分类
 }

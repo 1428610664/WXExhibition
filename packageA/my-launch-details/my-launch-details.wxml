@@ -35,12 +35,13 @@
             <view class='icon-wrapper'><image src='/images/address1.png'></image></view>
             <text>地址: {{itemData.address}}</text>
         </view>
-        <view class='fz13 c2 cell-wrapper'>
+        <view class='fz13 c2 cell-wrapper' catchtap='toDeltail'>
             <view class='icon-wrapper'><image src='/images/order.png'></image></view>
-            <text>活动概述</text>
+            <text>活动详情</text>
+            <image class='more' src='/images/more.png'></image> 
         </view>
 
-        <view class='entry-summary c3'>
+        <view class='entry-summary c3' style='display: none;'>
             <template is="wxParse" data="{{wxParseData: article.nodes}}" />
         </view>
         

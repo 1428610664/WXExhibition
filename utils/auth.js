@@ -25,6 +25,7 @@ module.exports = {
                     nickName: member.nickName,
                     name: member.name
                 }
+                that.globalData.role = res.data.member.role
                 wx.setStorageSync("memberId", member.id)
                 wx.setStorageSync("sessionId", "JSESSIONID=" + res.data.sessionId)
                 if (that.globalData.userInfo)this.updateMembers(that.globalData.userInfo, that)

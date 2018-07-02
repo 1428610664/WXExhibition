@@ -12,19 +12,27 @@ Page({
         pageNo: 1,
         pageTotal: 0,
         listCol: [],
-        requestParms: { status: ">=1", offset: 1, limit: 10, order: 'asc' },
-
-        topTabItems: ["全部", "行业", "生活", "亲子", "学习"],
+        requestParms: { 
+            status: '>=1', offset: 1, limit: 10, order: 'asc', 
+            style: '', 
+            isNeedPay: '', 
+            configPid: '',
+            days: '',
+            isHost: false
+        },
+        topTabItems: [],
+        categoryArray: [],
         currentTopItem: 0,
         showMask: "none",
         selectIndex: -1,
-        sortListTitle: [{ name: "全类型", id: 1 }, { name: "全时段", id: 1 }, { name: "全价格", id: 1 }, { name: "综合排序", id: 1 }],
+        sortListTitle: [{ title: "全类型" }, { title: "全时段" }, { title: "全价格" }, { title: "最新发布"}],
         sortList: [],
-        sortData: [[{ name: "全类型", id: 1 }, { name: "IT互联网", id: 1 }, { name: "创业", id: 1 }, { name: "科技", id: 1 }, { name: "金融", id: 1 }, { name: "游戏", id: 1 }, { name: "文娱", id: 1 }, { name: "电商", id: 1 }, { name: "教育", id: 1 }, { name: "营销", id: 1 }, { name: "设计", id: 1 }, { name: "职场", id: 1 }, { name: "地产", id: 1 }, { name: "医疗", id: 1 }, { name: "服务业", id: 1 }, { name: "演出", id: 1 }, { name: "文艺", id: 1 }, { name: "手工", id: 1 }, { name: "公益", id: 1 }, { name: "户外出游", id: 1 }, { name: "运动健康", id: 1 }, { name: "聚会交友", id: 1 }, { name: "休闲娱乐", id: 1 }, { name: "投资理财", id: 1 }, { name: "课程", id: 1 }, { name: "读书", id: 1 }, { name: "时尚", id: 1 }, { name: "心理", id: 1 }, { name: "体育赛事", id: 1 }, { name: "儿童才艺", id: 1 }, { name: "益智潮玩", id: 1 }, { name: "儿童剧/展览", id: 1 }, { name: "亲子旅游", id: 1 }, { name: "早教/升学", id: 1 }, { name: "社团", id: 1 }, { name: "讲座", id: 1 }], [{ name: "全时段", id: 1 }, { name: "今天", id: 1 }, { name: "明天", id: 1 }, { name: "本周", id: 1 }, { name: "本周末", id: 1 }, { name: "本月", id: 1 }], [{ name: "全价格", id: 1 }, { name: "免费", id: 1 }, { name: "付费", id: 1 }], [{ name: "综合排序", id: 1 }, { name: "最新发布", id: 1 }, { name: "热门点击", id: 1 }, { name: "最多参与", id: 1 }]]
+        sortData: [[], [{ title: "全时段", value: '' }, { title: "昨天到今天", value: 1 }, { title: "一周内", value: 7 }, { title: "30天内", value: 30 }], [{ title: "全价格", value: '' }, { title: "免费", value: 0 }, { title: "付费", value: 1 }], [{ title: "最新发布", value: false }, { title: "热门点击", value: true }]]
     },
     onLoad: function (options) {
     },
     onReady: function () {
+        this.requestCategory()
         this.requestListData()
         if (app.globalData.userInfo) {
             this.setData({ userInfo: app.globalData.userInfo })
@@ -38,9 +46,19 @@ Page({
             this.setData({ userInfo: app.globalData.userInfo})
         }
     },
+    requestCategory: function () {
+        request.get(Api.findTree, {})
+            .then(res => {
+                if (res.success) {
+                    let row = JSON.parse(res.data.rows)
+                    this._parseCategory(row.children)
+                    console.log("------------" + JSON.stringify(row))
+                }
+            })
+    },
     requestListData: function (status) { // status： 1(下拉刷新) 、2(上拉加载) 
         setTimeout(() => {
-            request.get(Api.getHomeList, this.data.requestParms).then((res) => {
+            request.get(Api.queryComprehensive, this.data.requestParms).then((res) => {
                 wx.hideLoading()
                 if (status == 1) wx.stopPullDownRefresh()
                 if (res.data.total > 0) {
@@ -55,6 +73,20 @@ Page({
                 this.setData({ status: 3 })
             })
         }, 800)
+    },
+    _parseCategory: function(row){
+        let topTabItems = [{ title: "全部", id: ''}], 
+            sortData = [], 
+            sort = this.data.sortData, 
+            categoryArray = []
+        row.forEach((v, i) => {
+            topTabItems.push({ title: v.title, id: v.id})
+            sortData.push(v.children)
+            categoryArray = categoryArray.concat(v.children)
+        })
+        sortData.unshift(categoryArray)
+        sort[0] = categoryArray
+        this.setData({ topTabItems: topTabItems, categoryArray: sortData, sortData: sort})
     },
     _formatListData: function (data, status) {
         let list = []
@@ -94,22 +126,71 @@ Page({
         this.requestListData(2)
         wx.showLoading({ title: '加载中' })
     },
-    toCity: function () {
-        wx.navigateTo({
-            url: '/packageA/city/city'
-        })
-    },
     switchTab: function (e) {
-        wx.showToast({ title: 'id:' + e.currentTarget.dataset.idx })
-        this.setData({ currentTopItem: e.currentTarget.dataset.idx })
+        let index = e.currentTarget.dataset.idx,
+            itemData = e.currentTarget.dataset.data,
+            currentTopItem = this.data.currentTopItem,
+            category = this.data.categoryArray[index],
+            sortData = this.data.sortData,
+            sortListTitle = this.data.sortListTitle,
+            requestParms = this.data.requestParms
+
+        if (index == currentTopItem) return
+        sortListTitle[0] = {title: "全类型"}
+        sortData[0] = category
+
+        requestParms.style = ''
+        requestParms.configPid = itemData.id
+
+        this.setData({
+            currentTopItem: index,
+            showMask: "none",
+            sortListTitle: sortListTitle,
+            sortData: sortData,
+            requestParms: requestParms
+        })
+        // 一级分类查询
+        wx.showLoading({ title: '加载中' })
+        this.requestListData()
+    },
+    sortClick: function (e) {
+        let data = e.currentTarget.dataset.data,
+            sortListTitle = this.data.sortListTitle,
+            index = this.data.selectIndex,
+            requestParms = this.data.requestParms
+
+        console.log(index + "------------" + JSON.stringify(data))
+        if (index == 0) { // 二级分类
+            requestParms.style = data.title
+        } else if (index == 1) { // 时间段
+            requestParms.days = data.value
+
+        } else if (index == 2) { // 价格
+            requestParms.isNeedPay = data.value
+        } else if (index == 3) { // 综合排序
+            requestParms.isHost = data.value
+        }
+        requestParms.offset = 1
+        sortListTitle[index] = data
+        this.setData({
+            showMask: "none",
+            selectIndex: -1,
+            sortListTitle: sortListTitle,
+            requestParms: requestParms
+        })
+        // 排序查询
+        wx.showLoading({ title: '加载中' })
+        this.requestListData()
     },
     tabItemClick: function (e) {
-        var id = e.currentTarget.dataset.id;
-        console.log(this.data.sortData[id])
-        if (this.data.selectIndex == id) {
+        var index = e.currentTarget.dataset.id;
+        console.log(this.data.sortData[index])
+        if (this.data.selectIndex == index) {
             this.setData({ showMask: "none", selectIndex: -1 })
         } else {
-            this.setData({ showMask: "block", selectIndex: id, sortList: this.data.sortData[id] })
+            this.setData({
+                showMask: "block", selectIndex: index, sortList: this.data.sortData[index]
+            })
         }
     },
     maskClick: function (e) {
@@ -121,16 +202,9 @@ Page({
             url: '../exhibition-details/exhibition-details?id=' + id
         })
     },
-    searchClick: function (e) {
-        wx.navigateTo({
-            url: '../search/search'
-        })
-    },
-    sortClick: function (e) {
-        wx.showToast({ title: e.currentTarget.dataset.data.name })
-        let sortListTitle = this.data.sortListTitle
-        sortListTitle[this.data.selectIndex] = e.currentTarget.dataset.data
-        this.setData({ showMask: "none", selectIndex: -1, sortListTitle: sortListTitle})
+    toPage: function (e) {
+        var path = e.currentTarget.dataset.path
+        wx.navigateTo({ url: path })
     },
     errorImage: function (e) {
         let index = e.target.dataset.index, name = e.target.dataset.name
@@ -138,12 +212,8 @@ Page({
         errorImg[imgObject] = "../../images/loading.png"
         this.setData(errorImg)
     },
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
 
-    },
+    // 授权登录
     agreeGetUser: function (e) {
         var userInfo = e.detail.userInfo;
         var self = this;

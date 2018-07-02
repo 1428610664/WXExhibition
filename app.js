@@ -49,6 +49,7 @@ App({
         })*/
     },
     globalData: {
+        role: 0,            // 用户角色
         sessionId: '',
         memberId: '',
         session_key: '',
@@ -58,12 +59,6 @@ App({
         userData: null,     // 用户名、手机、邮箱、昵称数据
         userInfo: null,     // 用户授权数据
         activityData: null, // 活动跳转数据
-        navTabList: [
-            { name: "精选", id: 1 },
-            { name: "IT互联网", id: 2 },
-            { name: "创业", id: 3 },
-            { name: "科技", id: 4 },
-            { name: "金融", id: 5 },
-            { name: "演出", id: 6 }]
+        navTabList: []
     }
 })

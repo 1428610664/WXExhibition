@@ -15,7 +15,7 @@ Page({
     },
     onReady: function () {
         let requestParms = this.data.requestParms
-        requestParms.memberId = app.globalData.memberId
+        if (app.globalData.role != 1)requestParms.memberId = app.globalData.memberId
         this.setData({ requestParms: requestParms})
         this.requestListData()
     },
